@@ -1,0 +1,61 @@
+html {
+	
+	
+
+}
+body {
+	margin:0;
+	
+}
+
+#topbar {
+	margin-top:-25px;
+	margin-left:8px;
+	margin-right:8px;
+	background:red;
+	height: 4em;
+	text-align: center;
+	font-size: 2em;
+	border: 10px outset red;
+    border-radius: 25px;
+	
+}
+#ownerleft {
+	margin-top:-18px;
+	position: absolute;
+    left: 0px;
+	
+}
+#ownerright {
+	margin-top:-18px;
+	position: absolute;
+    right: 0px;
+	
+}
+
+#columns {
+	margin:8px;
+	width: 100%;
+	border: 1px solid black;
+
+}
+
+#C1 {
+	vertical-align: top;
+	width: 25%;
+	border: 1px outset black;
+
+}
+
+#C2 {
+	vertical-align: top;
+	width: 50%;
+	border: 1px outset black;
+
+}
+
+#C3 {
+	vertical-align: top;
+	width: 25%;
+	border: 1px outset black;
+}
