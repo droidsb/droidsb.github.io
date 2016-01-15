@@ -1,0 +1,138 @@
+html {
+	
+	
+
+}
+body {
+	background: gray;
+	margin:0;
+	color: white;
+	
+}
+
+#topbar {
+	margin-top:-25px;
+	margin-left:8px;
+	margin-right:8px;
+	background:red;
+	height: 4em;
+	text-align: center;
+	font-size: 2em;
+	border: 10px outset red;
+    border-radius: 25px;
+	
+}
+#ownerleft {
+	margin-top:-18px;
+	position: absolute;
+    left: 0px;
+	
+}
+#ownerright {
+	margin-top:-18px;
+	position: absolute;
+    right: 0px;
+	
+}
+
+#columns {
+	
+	width: 100%;
+	
+}
+
+#C1 {
+	vertical-align: top;
+	width: 25%;
+	
+
+}
+
+#C2 {
+	
+	vertical-align: top;
+	width: 25%;
+	
+
+}
+
+#C3 {
+   
+	vertical-align: top;
+	width: 25%;
+	
+	
+	
+}
+#C4 {
+   
+	vertical-align: top;
+	width: 25%;
+	
+	
+	
+}
+
+
+
+
+
+
+.dropbtn {
+	
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    
+    
+}
+
+
+.dropdown {
+    position: absolute;
+    display: inline-block;
+    margin-left:76%;
+    margin-top:-5%;
+    
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    
+}
+
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+   
+}
+
+
+.dropdown-content a:hover {
+
+background-color: #f1f1f1
+}
+
+
+.dropdown:hover .dropdown-content {
+	
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+	
+    background-color: #3e8e41;
+}
