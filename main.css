@@ -34,6 +34,11 @@ body {
     right: 0px;
 	
 }
+#chasescene {
+	margin-left:250px;
+	border: 10px outset white;
+
+}
 
 #columns {
 	
