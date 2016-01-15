@@ -37,22 +37,23 @@ body {
 
 #columns {
 	
-	width: 100%;
-	border: 1px solid black;
+	width: 99%;
+	margin:8px;
 
 }
 
 #C1 {
-	vertical-align: top;
-	width: 25%;
 	
-
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
 }
 
 #C2 {
 	
 	vertical-align: top;
-	width: 50%;
+	width: 10%;
 	
 
 }
@@ -60,8 +61,8 @@ body {
 #C3 {
    
 	vertical-align: top;
-	width: 15%;
-	
+	width: 5%;
+	border: 20px solid white;
 	
 	
 }
@@ -72,13 +73,119 @@ body {
 	
 	
 	
+	
+	
+}
+#C5 {
+   
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
+	
+	
+	
+}
+#C6 {
+   
+	vertical-align: top;
+	width: 10%;
+	
+	
+	
+	
+	
+}
+#C7 {
+   
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
+	
+	
+	
 }
 
-#C3txt {
-background: rgba(0,191,255,0.5);
-border: 20px solid rgba(0,191,255,0.4);
+
+
+#columns2 {
+	
+	width: 99%;
+	margin-top:40px;
+	margin-left:8px;
+
+	
+}
+
+#C1R2 {
+	
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
+}
+
+#C2R2 {
+	
+	vertical-align: top;
+	width: 10%;
+	
 
 }
+
+#C3R2 {
+   
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
+	
+}
+#C4R2 {
+   
+	vertical-align: top;
+	width: 10%;
+	
+	
+	
+	
+	
+}
+#C5R2 {
+   
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
+	
+	
+	
+}
+#C6R2 {
+   
+	vertical-align: top;
+	width: 10%;
+	
+	
+	
+	
+	
+}
+#C7R2 {
+   
+	vertical-align: top;
+	width: 5%;
+	border: 20px solid white;
+	
+	
+	
+	
+}
+
+
+
+
 
 
 
