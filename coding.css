@@ -19,11 +19,11 @@ body {
 	margin-top:-25px;
 	margin-left:8px;
 	margin-right:8px;
-	background:red;
+	background:#3300CC;
 	height: 4em;
 	text-align: center;
 	font-size: 2em;
-	border: 10px outset red;
+	border: 10px outset #3300CC;
     border-radius: 25px;
 	color:black;
 }
