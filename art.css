@@ -52,6 +52,40 @@ body {
 
 }
 
+#columns {
+	
+	width:100%;
+}
+
+
+
+#C1 {
+	text-align: center;
+	vertical-align: top;
+	width: 33.333333333%;
+	
+	
+}
+
+#C2 {
+	
+	text-align: center;
+	vertical-align: top;
+	width: 33.333333333%;
+	
+
+}
+
+#C3 {
+   text-align: center;
+	vertical-align: top;
+	width: 33.333333333%;
+	
+	
+}
+
+
+
 
 
 #bodytxt {
