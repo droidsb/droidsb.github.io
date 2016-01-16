@@ -4,11 +4,21 @@ html {
 
 }
 body {
-	background: gray;
+	
+	
+	background-image: url("mountains.jpg");
+	background-position: -40px -10em; 
+	background-size: 105% 57em;
+    background-repeat: no-repeat;
+
+	
 	margin:0;
-	color: white;
+	color: gray;
 	
 }
+
+
+
 
 #topbar {
 	margin-top:-25px;
@@ -20,6 +30,7 @@ body {
 	font-size: 2em;
 	border: 10px outset red;
     border-radius: 25px;
+    color:black;
 	
 }
 #ownerleft {
@@ -35,8 +46,15 @@ body {
 	
 }
 
+#titlemain {
+	font-size:300%;
+	text-align:center; 
+	color:#484848;
+
+}
+
 #columns {
-	
+	margin-top:1000px;
 	width: 100%;
 	
 }
@@ -73,9 +91,12 @@ body {
 	
 }
 
+#bodytxt {
+	text-align:center;
+	color:gray;
 
 
-
+}
 
 
 .dropbtn {
@@ -135,4 +156,13 @@ background-color: #f1f1f1
 .dropdown:hover .dropbtn {
 	
     background-color: #3e8e41;
+}
+
+#bottompage {
+	background:	#484848;
+	padding:50px;
+	border:20px solid gray;
+	
+	
+
 }

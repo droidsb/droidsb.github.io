@@ -4,9 +4,14 @@ html {
 
 }
 body {
-	background: gray;
+	background-image: url("mountains.jpg");
+	background-position: -40px -10em; 
+	background-size: 105% 57em;
+    background-repeat: no-repeat;
+
+	
 	margin:0;
-	color: white;
+	color: gray;
 	
 }
 
@@ -20,7 +25,7 @@ body {
 	font-size: 2em;
 	border: 10px outset red;
     border-radius: 25px;
-	
+	color:black;
 }
 #ownerleft {
 	margin-top:-18px;
@@ -35,10 +40,18 @@ body {
 	
 }
 
+#titlemain {
+	font-size:300%;
+	text-align:center; 
+	color:#484848;
+
+}
+
 #columns {
-	
+	margin-top:22em;
+	margin-left:8px;
 	width: 99%;
-	margin:8px;
+	
 
 }
 
@@ -46,7 +59,7 @@ body {
 	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 }
 
@@ -62,7 +75,7 @@ body {
    	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 	
 }
@@ -80,7 +93,7 @@ body {
    	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 	
 	
@@ -100,7 +113,7 @@ body {
    	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 	
 	
@@ -122,7 +135,7 @@ body {
 	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 }
 
@@ -138,7 +151,7 @@ body {
    	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 	
 }
@@ -156,7 +169,7 @@ body {
    	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 	
 	
@@ -176,7 +189,7 @@ body {
    	text-align: center;
 	vertical-align: top;
 	width: 5%;
-	border: 20px solid white;
+	border: 20px solid gray;
 	
 	
 	
@@ -248,4 +261,14 @@ background-color: #f1f1f1
 .dropdown:hover .dropbtn {
 	
     background-color: #3e8e41;
+}
+
+#bottompage {
+	
+	background:	#484848;
+	padding:50px;
+	border:20px solid gray;
+	
+	
+
 }
