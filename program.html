@@ -2,6 +2,7 @@
 <html>
 <body>
 
+<div>
 <h3>PROGRAM</h3>
 <p>Encode your text</p>
 
@@ -154,18 +155,21 @@ console.log
     
 }
 </script>
+
+</div>
+
 <p>Translate</p>
-<input type="text" id="myText" value="">
+<input type="text" id="myText2" value="">
 
 
 
 <button onclick="myFunction2()">Try it</button>
 
-<p id="demo"></p>
+<p id="demo2"></p>
 <script>
 function myFunction2() {
-    var x = document.getElementById("myText").value;
-    var code2 = document.getElementById("demo").innerHTML = x;
+    var y = document.getElementById("myText2").value;
+    var code2 = document.getElementById("demo2").innerHTML = y;
     
     
     
@@ -181,6 +185,9 @@ var code = code2;
 var code2 = [];
 var coded = [];
 var finalw="";
+
+var alpha = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"," ","!","?",".","-",",","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+var alphac = ["z","w","u","s","q","o","y","v","t","r","p","n","x","l","j","h","f","d","b","k","i","g","e","m","c","a"," ","!","?",".","-",",","Z","W","U","S","Q","O","Y","V","T","R","P","N","X","L","J","H","F","D","B","K","I","G","E","M","C","A"];
 
 var len = code.length;
 
@@ -216,7 +223,7 @@ for(i=0; i<coded.length; i++){
 		
 	}
 console.log(finalw);
-document.getElementById("demo").innerHTML = finalw;
+document.getElementById("demo2").innerHTML = finalw;
 }
 </script>
 
