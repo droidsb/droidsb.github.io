@@ -5,49 +5,88 @@ html {
 }
 body {
 	
-	
-	background-image: url("mountains.jpg");
-	background-position: -40px -10em; 
-	background-size: 105% 57em;
-    background-repeat: no-repeat;
-
-	
 	margin:0;
-	color: gray;
-	
+	background-color: white;
 }
-
 
 
 
 #topbar {
-	margin-top:-25px;
-	margin-left:8px;
-	margin-right:8px;
-	background:linear-gradient(#000066, #3300CC);
-	height: 4em;
+	margin-top:-28px;
+	margin-left:0px;
+	margin-right:0px;
+	background: #29c5f9;
+	height: 3em;
 	text-align: center;
 	font-size: 2em;
-	border: 10px outset #3300CC;
-    border-radius: 25px;
+	
+	
+
     color:white;
 	
-}
-#ownerleft {
-	margin-top:-18px;
-	position: absolute;
-    left: 0px;
+    
 	
 }
-#ownerright {
-	margin-top:-18px;
-	position: absolute;
-    right: 0px;
+
+#titletext{
+
+margin-top:25px;
+
+}
+#topbar2 {
+	margin-top:0px;
+	margin-left:0px;
+	margin-right:0px;
+	background: linear-gradient(#29c5f9 80%, #9f9f9f, #ffffff);
+	height: 1.5em;
+	text-align: center;
+	font-size: 2em;
+	
+    color:white;
+	
+    
 	
 }
-#chasescene {
-	margin-left:250px;
-	border: 10px outset white;
+
+#buttons {
+
+	margin-top:0px;
+	margin-left:50px;
+	margin-right:50px;
+	color:#696969;
+    text-decoration: none;
+	
+
+
+
+}
+
+a:link {
+    color: #696969;
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: #696969;
+    text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+    color: gray;
+    text-decoration: underline;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+    text-decoration: none;
+}
+
+#welcome {
+	
+	text-align: center;
 
 }
 
@@ -55,13 +94,6 @@ body {
 	margin-top:20em;
 	width: 100%;
 	
-}
-
-#titlemain {
-	font-size:300%;
-	text-align:center; 
-	color:#484848;
-
 }
 
 #C1 {
@@ -79,125 +111,3 @@ body {
 
 }
 
-
-
-#columns2 {
-	margin-top:-84em;
-	width: 100%;
-	
-}
-
-#C1R2 {
-	vertical-align: top;
-	width: 25%;
-	
-
-}
-
-#C2R2 {
-	
-	vertical-align: top;
-	width: 50%;
-	
-
-}
-
-#C3R2 {
-   
-	vertical-align: top;
-	width: 15%;
-	
-	
-	
-}
-#C4R2 {
-   	
-   	
-	vertical-align: top;
-	width: 10%;
-	
-	
-	
-}
-
-#C3txt {
-background: rgba(0,191,255,0.5);
-border: 20px solid rgba(0,191,255,0.4);
-
-}
-
-#bodytxt {
-	text-align:center;
-	color:gray;
-
-
-}
-
-
-.dropbtn {
-	
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    
-    
-}
-
-
-.dropdown {
-    position: absolute;
-    display: inline-block;
-    margin-left:76%;
-    margin-top:-5%;
-    
-}
-
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    
-}
-
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-   
-}
-
-
-.dropdown-content a:hover {
-
-background-color: #f1f1f1
-}
-
-
-.dropdown:hover .dropdown-content {
-	
-    display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-	
-    background-color: #3e8e41;
-}
-
-#bottompage {
-	background:	#484848;
-	padding:50px;
-	border:20px solid gray;
-	
-	
-
-}
