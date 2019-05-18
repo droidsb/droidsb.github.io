@@ -1,0 +1,271 @@
+html {
+	
+
+	position:static;
+	min-width:80em;
+	
+}
+body {
+	
+	margin:0;
+	background-color: #575757;
+	color:white;
+	height:100%;
+	margin-bottom: 25px;
+	
+}
+
+::-webkit-scrollbar { 
+display: none; 
+}
+
+@font-face {
+    font-family: CustomFont;
+    src: url(abyssopelagic.otf);
+}
+
+
+
+#topbar {
+	position: fixed;
+
+	
+  top: 0;
+  width: 100%;
+  height:5.5em;
+	background: #877a50;
+	
+    
+	
+}
+
+
+
+#Logo {
+	position:static;
+	min-width:80em;
+	margin-top:-15px;
+	margin-left:80px;
+	margin-right:0px;
+	
+	
+    
+	
+}
+
+#Spaceship {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+	
+    
+	
+}
+
+
+#topbar2 {
+	margin-top:0px;
+	margin-left:0px;
+	margin-right:0px;
+	background: #000000;
+	height: 1.3em;
+	
+	font-size: 2em;
+	
+    color:white;
+	
+    
+	
+}
+
+#buttons {
+	position:static;
+	min-width:80em;
+	
+	font-size: 1em;
+
+	margin-top:0px;
+	text-align: center;
+	margin-left:0px;
+	margin-right:0px;
+	color:white;
+    text-decoration: none;
+	
+
+
+
+}
+
+#Bodytext{
+
+	font-family: "American Typewriter";
+	letter-spacing: 2px;
+	margin-left:200px;
+	margin-right:200px;
+	text-align:center;
+    position:center;
+}
+
+#Bodytext2{
+
+	font-family: "American Typewriter";
+	letter-spacing: 2px;
+	margin-left:200px;
+	margin-right:200px;
+	text-align:left;
+}
+
+#Reviews{
+
+	font-family: "American Typewriter";
+	letter-spacing: 2px;
+	margin-left:200px;
+	margin-right:200px;
+	text-align:left;
+    color: white;
+    background-color: grey;
+    border-style: solid;
+    border-width: 5px;
+    border-color: grey;
+    border-radius: 5px;
+}
+
+#SethPic{
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 5px;
+}
+
+
+
+#UpdatePage{
+	font-family: "American Typewriter";
+	letter-spacing: 2px;
+	text-align:center;
+	color:black;
+	background-color:#D3D3D3;
+
+}
+
+#UpdateText{
+
+	margin-left:200px;
+	margin-right:200px;
+
+}
+
+#UpBar{
+
+background-color: rgba(105,105, 105, 0.5);
+
+}
+
+
+
+#Pgbottom{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	font-family: CustomFont;
+	 letter-spacing: 2px;
+ 	 text-align: center;
+ 	 padding:5px;
+	background: #877a50;
+    color:white;
+
+
+}
+
+a.one:link {
+    color: white;
+    text-decoration: none;
+}
+
+/* visited link */
+a.one:visited {
+    color: white;
+    text-decoration: none;
+}
+
+/* mouse over link */
+a.one:hover {
+    color: white;
+    border-bottom: 2px solid;
+    border-bottom-color: green;
+}
+
+
+/* selected link */
+a.one:active {
+    color: blue;
+    text-decoration: none;
+}
+
+
+
+a.logo:link {
+    color: white;
+    text-decoration: none;
+}
+
+/* visited link */
+a.logo:visited {
+    color: white;
+    text-decoration: none;
+}
+
+/* mouse over link */
+a.logo:hover {
+    color: white;
+}
+
+
+/* selected link */
+a.logo:active {
+    color: blue;
+    text-decoration: none;
+}
+
+
+#welcome {
+	color:white;
+	font-family: CustomFont;
+	text-align: center;
+    font-size: 2em;
+
+}
+
+#columns {
+	margin-top:20em;
+	width: 100%;
+	
+}
+
+#C1 {
+	vertical-align: top;
+	width: 35%;
+	
+
+}
+
+#C2 {
+	
+	vertical-align: top;
+	width: 65%;
+	
+
+}
+
+#contact{
+	text-align: center;
+	margin-left:50px;
+	margin-right:50px;
+	color:black;
+   
+
+
+
+}
