@@ -46,6 +46,60 @@ display: none;
 }
 
 
+#search {
+	text-align: center;
+    
+	
+}
+
+
+#leaderboard {
+	
+	opacity: 0.5;
+	background-color: lightblue;
+	position: fixed;
+	margin-right:0px;
+	margin-left:50px;
+	
+	border-radius:5px;
+	
+	color:black;
+	
+	padding:10px;
+	
+	width:12em;
+	height:15em;
+    
+	
+}
+
+#leaderboard2 {
+	
+	opacity: 0.5;
+	background-color: lightblue;
+	
+	
+
+	float: right;
+	
+	position: fixed;
+	 right:50px;
+	
+	
+	
+	border-radius:5px;
+	
+	color:black;
+	
+	padding:10px;
+	
+	width:12em;
+	height:15em;
+    
+	
+}
+
+
 
 
 #Logo {
