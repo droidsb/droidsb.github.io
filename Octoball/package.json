@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "brfs": "^2.0.2",
+    "browserify-fs": "^1.0.0",
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
     "google-spreadsheet": "^3.0.9"
   }
 }

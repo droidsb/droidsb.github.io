@@ -1,9 +1,18 @@
-const {GoogleSpreadsheet} = require('google-spreadsheet');
-
-const { promisify } = require('util')
 
 
-const creds=require('./client_secret.json')
+//var fs = require('fs');
+
+var fs = require('fs')
+
+//var data = require('fs').readFileSync(__dirname + '/data.js', 'utf8');
+
+var data = fs.readFileSync(__dirname + '/data.js');
+
+console.log(data)
+ 
+data=JSON.parse(data);
+
+
 
 function searchname(nameKey, myArray){
     for (var i=0; i < myArray.length; i++) {
@@ -16,132 +25,12 @@ function searchname(nameKey, myArray){
 
 async function accessSpreadsheet(){
 
-const doc = new GoogleSpreadsheet('19AlnuXv11v2RhTL1NgRYK6DXnGtW-1bN6xYEo1FjSzg')
-
-await doc.useServiceAccountAuth(require('./client_secret.json'));
-
-
-await doc.loadInfo();
-
-console.log(doc.title);
-
-
-const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id]
-
-console.log(sheet.title);
-
-await sheet.loadCells('A1:J150'); // loads a range of cells
-console.log(sheet.cellStats);
-
-
-
-
-var bwin=0;
-
-var name="";
-
-var data=[];
-
-
-
-var text=""
-
-var tempdata=[]
-
-for(var i=0; i<100; i++){
-
-if(sheet.getCell(1+i, 6).value!==null){
-
-data.push({name: sheet.getCell(1+i, 1).value, 
-kills:sheet.getCell(1+i, 2).value, 
-deaths:sheet.getCell(1+i, 3).value,
-sdeaths:sheet.getCell(1+i, 4).value,
-wins:sheet.getCell(1+i, 5).value,
-losses:sheet.getCell(1+i, 6).value,
-wlr:sheet.getCell(1+i, 7).value,
-kdr:sheet.getCell(1+i, 8).value,
-kdrsd:sheet.getCell(1+i, 9).value
-
-})
-
-
-
-}
-
-
-
-//document.write(data.length)
 
 
 
 
 
-/*
-var cellW=sheet.getCell(1+i, 4);
 
-var cellN=sheet.getCell(1+i, 6);
-
-if(cellW.value>bwin){
-
-	bwin=cellW.value;
-	
-	name=cellN.value;
-	
-
-}*/
-
-
-}
-
-
-
-for(var i=0; i<data.length; i++){
-
-	for(var p=0; p<data.length; p++){
-	
-	
-	
-		if(i!==p){
-		
-				
-				if(sheet.getCell(1+i, 1).value===sheet.getCell(1+p, 1).value){
-					
-					data[i].kills+=data[p].kills
-					data[i].deaths+=data[p].deaths
-					data[i].sdeaths+=data[p].sdeaths
-					data[i].wins+=data[p].wins
-					data[i].losses+=data[p].losses
-					data[i].wlr+=data[p].wlr
-					data[i].kdr+=data[p].kdr
-					data[i].kdrsd+=data[p].kdrsd
-					
-					
-					
-					
-					
-					
-				
-				}
-				
-				//console.log(searchname(data[i].name,tempdata))
-				if(searchname(data[i].name,tempdata)===undefined){
-				
-				tempdata.push(data[i])
-				
-				}
-		
-		}
-	
-	
-	}
-
-
-}
-
-
-data=tempdata;
-
-console.log(tempdata)
 
 for(var i=0; i<data.length; i++){
 
