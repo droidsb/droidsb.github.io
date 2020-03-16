@@ -299,7 +299,7 @@ mobile=true;
 
 function setup() {
 
-  socket = io.connect('http://192.168.1.40:3000');
+  socket = io.connect('http://droidsb.github.io:3000');
   
 
  
