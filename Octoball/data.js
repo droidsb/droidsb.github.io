@@ -1,1 +1,1 @@
-[{"name":"Seth","kills":8,"deaths":2,"sdeaths":1,"wins":4,"losses":1,"wlr":null,"kdr":null,"kdrsd":null},{"name":"Jude","kills":9,"deaths":3,"sdeaths":2,"wins":3,"losses":2,"wlr":null,"kdr":null,"kdrsd":null}]
+[]
