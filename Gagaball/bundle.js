@@ -8,11 +8,8 @@
 
 //var data = require('fs').readFileSync(__dirname + '/data.js', 'utf8');
 
-var data = Buffer("W3sibmFtZSI6IlNldGgiLCJraWxscyI6OCwiZGVhdGhzIjoyLCJzZGVhdGhzIjoxLCJ3aW5zIjo0LCJsb3NzZXMiOjEsIndsciI6bnVsbCwia2RyIjpudWxsLCJrZHJzZCI6bnVsbH0seyJuYW1lIjoiSnVkZSIsImtpbGxzIjo5LCJkZWF0aHMiOjMsInNkZWF0aHMiOjIsIndpbnMiOjMsImxvc3NlcyI6Miwid2xyIjpudWxsLCJrZHIiOm51bGwsImtkcnNkIjpudWxsfV0=","base64");
+var data = [{"name":"Seth","kills":8,"deaths":1,"sdeaths":3,"wins":5,"losses":2,"wlr":2.5,"kdr":8,"kdrsd":2},{"name":"Jude","kills":7,"deaths":2,"sdeaths":0,"wins":3,"losses":4,"wlr":0.75,"kdr":3.5,"kdrsd":3.5},{"name":"Laird","kills":10,"deaths":1,"sdeaths":2,"wins":3,"losses":1,"wlr":3,"kdr":10,"kdrsd":3.3333333333333335},{"name":"Nerd","kills":1,"deaths":13,"sdeaths":6,"wins":1,"losses":9,"wlr":0.1111111111111111,"kdr":0.07692307692307693,"kdrsd":0.05263157894736842}]
 
-console.log(data)
- 
-data=JSON.parse(data);
 
 
 
@@ -88,6 +85,10 @@ var secondplayer;
 
 var thirdplayer;
 
+var fourthplayer;
+
+var fifthplayer;
+
 for(var i=0; i<data.length; i++){
 	
 	if(i===0){
@@ -113,7 +114,7 @@ for(var i=0; i<data.length; i++){
 		
 	}
 	
-	if(data[i].wins>secondplayer.wins && data[i].wins<topplayer.wins){
+	if(data[i].wins>secondplayer.wins && data[i].wins<=topplayer.wins && data[i]!==topplayer){
 	
 		secondplayer=data[i];
 	
@@ -130,7 +131,7 @@ for(var i=0; i<data.length; i++){
 		
 	}
 	
-	if(data[i].wins>thirdplayer.wins && data[i].wins<secondplayer.wins){
+	if(data[i].wins>thirdplayer.wins && data[i].wins<=secondplayer.wins && data[i]!==topplayer && data[i]!==secondplayer){
 	
 		thirdplayer=data[i];
 	
@@ -138,6 +139,41 @@ for(var i=0; i<data.length; i++){
 
 
 }
+
+for(var i=0; i<data.length; i++){
+	
+	if(i===0){
+	
+		fourthplayer={wins:-100}
+		
+	}
+	
+	if(data[i].wins>fourthplayer.wins && data[i].wins<=thirdplayer.wins && data[i]!==topplayer && data[i]!==secondplayer && data[i]!==thirdplayer){
+	
+		fourthplayer=data[i];
+	
+	}
+
+
+}
+
+for(var i=0; i<data.length; i++){
+	
+	if(i===0){
+	
+		fifthplayer={wins:-100}
+		
+	}
+	
+	if(data[i].wins>fifthplayer.wins && data[i].wins<=fourthplayer.wins && data[i]!==topplayer && data[i]!==secondplayer && data[i]!==thirdplayer && data[i]!==fourthplayer){
+	
+		fifthplayer=data[i];
+	
+	}
+
+
+}
+
 
 }
 
@@ -147,6 +183,10 @@ var onewr;
 var twowr;
 
 var threewr;
+
+var fourwr;
+
+var fivewr;
 
 for(var i=0; i<data.length; i++){
 	
@@ -173,7 +213,7 @@ for(var i=0; i<data.length; i++){
 		
 	}
 	
-	if(data[i].wlr>twowr.wlr && data[i].wlr<onewr.wlr){
+	if(data[i].wlr>twowr.wlr && data[i].wlr<=onewr.wlr && data[i]!==onewr){
 	
 		twowr=data[i];
 	
@@ -190,9 +230,43 @@ for(var i=0; i<data.length; i++){
 		
 	}
 	
-	if(data[i].wlr>threewr.wlr && data[i].wlr<twowr.wlr){
+	if(data[i].wlr>threewr.wlr && data[i].wlr<=twowr.wlr && data[i]!==onewr && data[i]!==twowr){
 	
 		threewr=data[i];
+	
+	}
+
+
+}
+
+for(var i=0; i<data.length; i++){
+	
+	if(i===0){
+	
+		fourwr={wlr:-100}
+		
+	}
+	
+	if(data[i].wlr>fourwr.wlr && data[i].wlr<=threewr.wlr && data[i]!==onewr && data[i]!==twowr && data[i]!==threewr){
+	
+		fourwr=data[i];
+	
+	}
+
+
+}
+
+for(var i=0; i<data.length; i++){
+	
+	if(i===0){
+	
+		fivewr={wlr:-100}
+		
+	}
+	
+	if(data[i].wlr>fivewr.wlr && data[i].wlr<=fourwr.wlr && data[i]!==onewr && data[i]!==twowr && data[i]!==threewr && data[i]!==fourwr){
+	
+		fivewr=data[i];
 	
 	}
 
@@ -202,9 +276,9 @@ for(var i=0; i<data.length; i++){
 }
 
 console.log(topplayer)
-addText(document.getElementById("leaderboard"),"Wins Leaderboard<br><br>1st: "+topplayer.name+"<br>Wins: "+topplayer.wins+"<br><br>2nd: "+secondplayer.name+"<br>Wins: "+secondplayer.wins+"<br><br>3rd: "+thirdplayer.name+"<br>Wins: "+thirdplayer.wins+"<br><br>")
+addText(document.getElementById("leaderboard"),"Wins Leaderboard<br><br>1st: "+topplayer.name+"<br>Wins: "+topplayer.wins+"<br><br>2nd: "+secondplayer.name+"<br>Wins: "+secondplayer.wins+"<br><br>3rd: "+thirdplayer.name+"<br>Wins: "+thirdplayer.wins+"<br><br>4th: "+fourthplayer.name+"<br>Wins: "+fourthplayer.wins+"<br><br>5th: "+fifthplayer.name+"<br>Wins: "+fifthplayer.wins+"<br><br>")
 
-addText(document.getElementById("leaderboard2"),"Win Ratio Leaderboard<br><br>1st: "+onewr.name+"<br>Win Ratio: "+onewr.wlr+"<br><br>2nd: "+twowr.name+"<br>Win Ratio: "+twowr.wlr+"<br><br>3rd: "+threewr.name+"<br>Win Ratio: "+threewr.wlr+"<br><br>")
+addText(document.getElementById("leaderboard2"),"Win Ratio Leaderboard<br><br>1st: "+onewr.name+"<br>Win Ratio: "+onewr.wlr+"<br><br>2nd: "+twowr.name+"<br>Win Ratio: "+twowr.wlr+"<br><br>3rd: "+threewr.name+"<br>Win Ratio: "+threewr.wlr+"<br><br>4th: "+fourwr.name+"<br>Win Ratio: "+fourwr.wlr+"<br><br>5th: "+fivewr.name+"<br>Win Ratio: "+fivewr.wlr+"<br><br>")
 
 
 
