@@ -1510,7 +1510,7 @@ function preload() {
 
 
 function setup() {
-createCanvas(1780, 900);
+  createCanvas(windowWidth, windowHeight);
 pixelDensity(1)
 
 
