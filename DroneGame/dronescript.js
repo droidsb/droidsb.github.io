@@ -1541,9 +1541,9 @@ Engine.run(engine)
 //console.log(boxA)
 console.log(ground)
 
-drones.push(new drone((width/2)-100,500,gamesize,81,69,49,51,87,0,{r:255,g:0,b:0}))
+drones.push(new drone((width/2)-100,500,gamesize,65,68,81,69,83,0,{r:255,g:0,b:0}))
 
-drones.push(new drone((width/2)+100,500,gamesize,85,79,55,57,73,1,{r:0,g:0,b:255}))
+drones.push(new drone((width/2)+100,500,gamesize,74,76,85,79,75,1,{r:0,g:0,b:255}))
 
 //drones.push(new drone((width/2)+200,500,0.5,37,39,0,0,38))
 
