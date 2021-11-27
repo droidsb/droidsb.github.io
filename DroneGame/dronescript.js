@@ -1,5 +1,7 @@
 var keys=[];
 
+var debug=false;
+
 var particles=[];
 
 var deleted=[];
@@ -35,7 +37,7 @@ let controller2flip=false;
 let controller2EmoveOut=false;
 let controller2EmoveIn=false;
 
-var gamesize=0.2;
+var gamesize=0.3;
 
 
 
@@ -43,8 +45,33 @@ let cIndex=false;
 
 let pointsP1=0;
 let pointsP2=0;
+let pointsP3=0;
+let pointsP4=0;
 
 var goal;
+
+var droneIt=0;
+
+var noReTag=3000;
+
+var scene=0;
+
+var players=1;
+
+var loading=false;
+
+var loadscene1=false;
+
+var clicked=false;
+
+var gamemode=0;
+
+var requiredPlayers=0;
+
+var resetBodies=[];
+
+
+
 
 
 window.addEventListener('gc.button.press', function(event) {
@@ -224,6 +251,16 @@ var controllerB;
   }, false);
 
 console.log(controllerA)
+var controls1player;
+var controls2player;
+var controls3player;
+var controls4player;
+controls1player=[[65,68,81,69,83]]
+controls2player=[[65,68,81,69,83],[74,76,85,79,75]]
+
+controls3player=[[0,0,0,0,0],[65,68,81,69,83],[74,76,85,79,75]]
+
+controls4player=[[0,0,0,0,0],[0,0,0,0,0],[65,68,81,69,83],[74,76,85,79,75]]
 
 function sigmoid(x){
 
@@ -329,6 +366,7 @@ this.smokeidle2=new ParticleEmitter(300,400,10*this.size,20*this.size,1.5,0.4,2,
 
 
 this.cbox=Bodies.rectangle(this.x,this.y, 140, 50);
+this.cbox.label="dronehitbox"
 Matter.Body.scale(this.cbox, this.size, this.size)
 Matter.Body.setMass(this.cbox,3.5)
 Composite.add(engine.world, [this.cbox]);
@@ -337,8 +375,9 @@ print("Mass:"+this.cbox.mass)
 
 this.fadeout=false;
 
-this.engineSound1 = loadSound('Sound/Engine.wav');
-this.engineSound2 = loadSound('Sound/Engine2.wav');
+this.engineSound1 = loadSound('Sound/EngineBass.wav');
+this.engineSound2 = loadSound('Sound/EngineBass.wav');
+
 
 //this.brain=new NeuralNetwork(7,10,2)
 //this.brain.random()
@@ -523,12 +562,14 @@ Matter.Body.applyForce(this.cbox,{x: this.cbox.vertices[3].x, y: this.cbox.verti
 if (this.engineSound1.isPlaying()) {
 this.engineSound1.setVolume(1,0.001)
 
+
 }
 
 if (this.engineSound1.isPlaying()===false) {
 this.engineSound1.setVolume(1)
 this.engineSound1.rate(random(1.8,2))
 this.engineSound1.play();
+
 
 
 //
@@ -549,6 +590,7 @@ this.smoke3.emit(1)
 Matter.Body.applyForce(this.cbox,{x: this.cbox.vertices[2].x, y: this.cbox.vertices[2].y}, {x: thruster2x, y: thruster2y})
 if (this.engineSound2.isPlaying()) {
 this.engineSound2.setVolume(1,0.001)
+
 
 }
 
@@ -582,12 +624,20 @@ this.engineSound2.setVolume(0,0.1)
 
 if(keys[this.flipButton] || controller1flip===true && this.controllerIndex===0 || controller2flip===true && this.controllerIndex===1){
 
-if(this.y>756){
+if(this.y>height-50){
 Matter.Body.applyForce(this.cbox,{x:this.cbox.position.x,y:this.cbox.position.y},{x:0,y:-0.08*gamesize})
 Matter.Body.applyForce(this.cbox,{x: this.cbox.vertices[3].x, y: this.cbox.vertices[3].y}, {x: 0, y: -0.12*gamesize})
+
+if(controller1flip===true){
 controller1flip=false;
+}
+if(controller2flip===true){
 controller2flip=false;
-keys[this.flipButton]=false
+}
+if(keys[this.flipButton]){
+keys[this.flipButton]=false;
+}
+
 }
 
 }
@@ -598,7 +648,7 @@ keys[this.flipButton]=false
 
 //text(this.cbox.angle*180/Math.PI,200,200)
 
-if(autofly===true){
+/*if(autofly===true){
 
 let dangle=(this.cbox.angle*180/Math.PI)
 
@@ -628,7 +678,7 @@ Matter.Body.applyForce(this.cbox,{x: this.cbox.vertices[2].x, y: this.cbox.verti
 
 }
 
-}
+}*/
 
 
 
@@ -1516,20 +1566,18 @@ pixelDensity(1)
 
 smokeRender = createGraphics(400, 200);
 
-ground = Bodies.rectangle(width/2, height+30, 2000, 60, { isStatic: true });
-roof = Bodies.rectangle(width/2, -130, 2000, 60, { isStatic: true });
+ground = Bodies.rectangle(width/2, height+30, width+1000, 60, { isStatic: true });
+roof = Bodies.rectangle(width/2, -30, width+1000, 60, { isStatic: true });
 ground.restitution=0.25;
-/*ball = Bodies.circle(width/2, 40, 40)
 
-ball.restitution=1.5
-Matter.Body.setMass(ball,0.2)*/
-
-wall1 = Bodies.rectangle(-30, 0, 60, 2000, { isStatic: true });
-wall2 = Bodies.rectangle(width+30, 0, 60, 2000, { isStatic: true });
+wall1 = Bodies.rectangle(-30, height/2, 60, height+1000, { isStatic: true });
+wall2 = Bodies.rectangle(width+30, height/2, 60, height+1000, { isStatic: true });
 
 
 
 Composite.add(engine.world, [ground,roof,wall1,wall2]);
+
+resetBodies=engine.world.bodies
 
 
 noStroke()
@@ -1541,9 +1589,16 @@ Engine.run(engine)
 //console.log(boxA)
 console.log(ground)
 
-drones.push(new drone((width/2)-100,500,gamesize,65,68,81,69,83,0,{r:255,g:0,b:0}))
+/*drones.push(new drone((width/2)+200,height-100,gamesize,0,0,0,0,0,0,{r:255,g:255,b:255}))
 
-drones.push(new drone((width/2)+100,500,gamesize,74,76,85,79,75,1,{r:0,g:0,b:255}))
+drones.push(new drone((width/2)-100,height-100,gamesize,0,0,0,0,0,1,{r:255,g:0,b:0}))
+//65,68,81,69,83
+drones.push(new drone((width/2)+100,height-100,gamesize,65,68,81,69,83,2,{r:0,g:0,b:255}))
+
+drones.push(new drone((width/2)-200,height-100,gamesize,74,76,85,79,75,3,{r:0,g:255,b:0}))*/
+
+
+
 
 //drones.push(new drone((width/2)+200,500,0.5,37,39,0,0,38))
 
@@ -1580,11 +1635,31 @@ var timer=0;
 
 //var drone1=new drone(500,500,0.5,81,69,37,0)
 
+var goalSize=200;
+
+
+
+function button(x,y,w,h){
+
+if(debug===true){
+  rectMode(CENTER)
+fill(255,0,0,100)
+rect(x,y,w,h)
+}
+
+hit = collidePointRect(mouseX, mouseY, x-(w/2), y-(h/2), w, h);
+
+
+if(mouseIsPressed && hit && clicked===false){
+clicked=true;
+return [true,hit]
+}
+else{return [false,hit]}
 
 
 
 
-
+}
 
 //ar dronethruster1=[boxA.vertices[3].x,boxA.vertices[3].y];
 
@@ -1592,48 +1667,52 @@ var timer=0;
 
 function draw() {
 
+  if(controllerB===true){
+  controls3player=[[0,0,0,0,0],[0,0,0,0,0],[65,68,81,69,83]]
+  }
+
 timer++;
 
-//dronethruster1=[boxA.vertices[3].x,boxA.vertices[3].y];
-//dronethruster2=[boxA.vertices[2].x,boxA.vertices[2].y];
 
-//tangle+=1
 
 background(0)
 
 
 
-if(timer<300){
+if(loading===1){
 
-/*for(var i=0; i<drones.length; i++){
+  if(players===1){
 
-drones[i].display()
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,{r:255,g:255,b:255}))
+  }
+  if(players===2){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,{r:255,g:0,b:0}))
 
-hitgoal = collidePointCircle(drones[i].x, drones[i].y, width/2, height/2, 50,50);
+  }
+  if(players===3){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,{r:0,g:0,b:255}))
 
-if(hitgoal){
-
-print("GOAL!")
-
-
-var newdrone=new drone(random(0,width),random(0,height),300)
-newdrone.brain=drones[i].brain
-newdrone.brain.mutate()
-
-drones.push(drones[i])
+  }
+  if(players===4){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,{r:0,g:0,b:255}))
+    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,{r:0,g:255,b:0}))
 
 
+  }
 
-drones.splice(i,1)
+    scene=1;
+    loading=false;
 
 
 }
 
 
-}*/
-
-
-}
+if(scene===1){
 
 //drone1.display()
 
@@ -1646,51 +1725,77 @@ if(i===0){
 fill(255)
 textSize(20)
 textAlign(LEFT)
-
+text("White:"+pointsP1,10,30)
 text("Engines Angle:"+drones[i].getAngle(),10,60)
+
 }
 
 if(i===1){
 fill(255)
 textSize(20)
 textAlign(RIGHT)
-
+text("Red:"+pointsP2,width-10,30)
 text("Engine Angle:"+drones[i].getAngle(),width-10,60)
+}
+
+if(i===2){
+fill(255)
+textSize(20)
+textAlign(LEFT)
+text("Blue:"+pointsP3,10,height-30)
+text("Engines Angle:"+drones[i].getAngle(),10,height-10)
+
+}
+
+if(i===3){
+fill(255)
+textSize(20)
+textAlign(RIGHT)
+text("Green:"+pointsP4,width-10,height-30)
+text("Engines Angle:"+drones[i].getAngle(),width-10,height-10)
+
+}
+if(goalSize<15){
+
+goalSize=15;
+
 }
 //text(round(drones[i].getPosition().x)+","+round(drones[i].getPosition().y),20,80+(20*i))
 
-hitgoal = collidePointCircle(goal.x, goal.y, round(drones[i].getPosition().x), round(drones[i].getPosition().y), 100);
+hitgoal = collidePointCircle(goal.x, goal.y, round(drones[i].getPosition().x), round(drones[i].getPosition().y), goalSize+10);
 
 if(hitgoal){
 
 goal={x:random(20,width-20),y:random(20,height-50)}
 if(i===0){
 pointsP1++;
+goalSize=goalSize-4;
 }
 if(i===1){
 pointsP2++;
+goalSize=goalSize-4;
+}
+if(i===2){
+pointsP3++;
+goalSize=goalSize-4;
+}
+if(i===3){
+pointsP4++;
+goalSize=goalSize-4;
 }
 
 }
 
 }
-
-fill(255)
-textSize(20)
-textAlign(LEFT)
-text("RED:"+pointsP1,10,30)
-textAlign(RIGHT)
-text("BLUE:"+pointsP2,width-10,30)
 
 fill(218,165,32)
-
-ellipse(goal.x,goal.y,80,80)
+ellipse(goal.x,goal.y,goalSize,goalSize)
 
 if(pointsP1===20){
 
 textAlign(CENTER)
 textSize(40)
-text("RED PLAYER WINS",width/2,height/2)
+text("WHITE PLAYER WINS",width/2,height/2)
 text("Press R to restart",width/2,(height/2)+100)
 goal={x:-2000,y:-2000}
 
@@ -1700,125 +1805,450 @@ if(pointsP2===20){
 
 textAlign(CENTER)
 textSize(40)
+text("RED PLAYER WINS",width/2,height/2)
+text("Press R to restart",width/2,(height/2)+100)
+goal={x:-2000,y:-2000}
+}
+
+if(pointsP3===20){
+
+textAlign(CENTER)
+textSize(40)
 text("BLUE PLAYER WINS",width/2,height/2)
 text("Press R to restart",width/2,(height/2)+100)
 goal={x:-2000,y:-2000}
 }
 
+if(pointsP4===20){
 
+textAlign(CENTER)
+textSize(40)
+text("GREEN PLAYER WINS",width/2,height/2)
+text("Press R to restart",width/2,(height/2)+100)
+goal={x:-2000,y:-2000}
+}
 
-
-//ellipse(width/2,height/2,50,50)
-
-
-push()
-rectMode(CENTER)
-translate(ground.position.x,ground.position.y)
-//print(ground.position.x,ground.position.y)
-//rotate(ground.angle)
-fill(0)
-//rect(0,0,2000,60)
-
-pop()
-
-fill(0,255,0)
-//ellipse(ball.position.x,ball.position.y,80,80)
-
-//text(frameRate(),20,60)
-
-/*
-
-
-push()
-translate(droneX,droneY)
-rotate(boxA.angle)
-rectMode(CENTER)
-
-fill(200,0,0)
-rect(0,0,80,20,4)
-
-fill(40,40,40)
-rect(-52.5,0,25,9)
-rect(52.5,0,25,9)
-
-fill(200,200,200)
-rect(-60,15,25,20,4)
-
-
-
-rect(60,15,25,20,4)
-
-pop()
-
-
-droneVy=droneVy+gravity;
-
-droneY+=droneVy
-
-if(droneY>height-28){
-
-	droneY=height-28
 
 }
 
-*/
-/*rectMode(CENTER)
-push()
-translate(boxA.position.x,boxA.position.y)
-rotate(boxA.angle)
-//rect(0,0,105,20)
-
-pop()*/
+if(loading===2){
 
 
 
-fill(0,0,255)
-//ellipse(boxA.vertices[3].x,boxA.vertices[3].y,10,10)
+  if(players===1){
 
-//(-0.01) * Math.cos((boxA.angle) * Math.PI / 180);
-//(-0.01) * Math.sin((boxA.angle) * Math.PI / 180);
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,{r:255,g:255,b:255}))
+  }
+  if(players===2){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,{r:255,g:0,b:0}))
 
+  }
+  if(players===3){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,{r:0,g:0,b:255}))
 
-
-angleMode(DEGREES)
-
-//var thruster1x=(forcey) * Math.cos(((boxA.angle*180/Math.PI)+90) * Math.PI / 180)
-//var thruster1y=(forcey) * Math.sin(((boxA.angle*180/Math.PI)+90) * Math.PI / 180)
-
-angleMode(RADIANS)
-
-//thrusty=0
-
-//print(round(thrustx*100000)/100000,round(thrusty*100000)/100000)
-
-
-
-//x,y,sizeMin,sizeMax,vx,vy,speedMinX,speedMaxX,speedMinY,speedMaxY,lifetime,fade,drag,rate
+  }
+  if(players===4){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,{r:0,g:0,b:255}))
+    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,{r:0,g:255,b:0}))
 
 
-//particle(500,600,10,20,0,-1.5,0.4,0.4,1,1,3000,1000,1,0,{r:255,g:165,b:0})
+  }
 
-//particle(300,600,10,20,0,-1.5,0.4,0.4,1,1,3000,1000,1,0,{r:200,g:200,b:200})
+    scene=2;
+    loading=false;
 
-//particle(px,py,20,30,2,0,0.1,0.4,0.2,0.2,3000,1000,1,0,{r:200,g:200,b:200})
-
-//particle(px,py,20,30,2,0,0.1,0.4,0.2,0.2,3000,1000,1,0,{r:200,g:200,b:200})
-
-//particle(px+20,py,10,20,0,-2.5,0.4,0.4,1,1,3000,1000,1,0,{r:255,g:165,b:0})
-
-//particle(px+40,py,10,20,0,-2.5,0.4,0.4,1,1,3000,1000,1,0,{r:255,g:165,b:0})
-
-//px=px+2;
-
-if(px>1000){
-
-px=0
 
 }
 
-fill(0)
-//text(round(millis()),20,20)
-//text(pamount,20,40)
+if(scene===2){
+
+
+
+  textSize(30)
+  textAlign(CENTER)
+  fill(255)
+  if(droneIt===0){
+
+  text("WHITE IS IT!",width/2,30)
+
+  }
+
+  if(droneIt===1){
+
+  text("RED IS IT!",width/2,30)
+
+  }
+
+  if(droneIt===2){
+
+  text("BLUE IS IT!",width/2,30)
+
+  }
+
+  if(droneIt===3){
+
+  text("GREEN IS IT!",width/2,30)
+
+  }
+
+for(var i=0; i<drones.length; i++){
+
+drones[i].display();
+
+
+if(i===0){
+fill(255)
+textSize(20)
+textAlign(LEFT)
+//text("White:"+pointsP1,10,30)
+text("White Engines Angle:"+drones[i].getAngle(),10,30)
+
+}
+
+if(i===1){
+fill(255)
+textSize(20)
+textAlign(RIGHT)
+//text("Red:"+pointsP2,width-10,30)
+text("Red Engine Angle:"+drones[i].getAngle(),width-10,30)
+}
+
+if(i===2){
+fill(255)
+textSize(20)
+textAlign(LEFT)
+//text("Blue:"+pointsP3,10,height-30)
+text("Blue Engines Angle:"+drones[i].getAngle(),10,height-10)
+
+}
+
+if(i===3){
+fill(255)
+textSize(20)
+textAlign(RIGHT)
+//text("Green:"+pointsP4,width-10,height-30)
+text("Green Engines Angle:"+drones[i].getAngle(),width-10,height-10)
+
+}
+
+//text(round(drones[i].getPosition().x)+","+round(drones[i].getPosition().y),20,80+(20*i))
+
+
+if(noReTag<millis()){
+hitDrone0 = collidePointCircle(drones[0].getPosition().x, drones[0].getPosition().y, round(drones[i].getPosition().x), round(drones[i].getPosition().y), 80);
+hitDrone1 = collidePointCircle(drones[1].getPosition().x, drones[1].getPosition().y, round(drones[i].getPosition().x), round(drones[i].getPosition().y), 80);
+
+if(players===3){
+hitDrone2 = collidePointCircle(drones[2].getPosition().x, drones[2].getPosition().y, round(drones[i].getPosition().x), round(drones[i].getPosition().y), 80);
+}
+if(players===4){
+hitDrone3 = collidePointCircle(drones[3].getPosition().x, drones[3].getPosition().y, round(drones[i].getPosition().x), round(drones[i].getPosition().y), 80);
+}
+if(i===droneIt){
+if(i===0){
+  hitDrone0=false;
+}
+if(i===1){
+  hitDrone1=false;
+}
+if(i===2){
+  hitDrone2=false;
+}
+if(i===3){
+  hitDrone3=false;
+}
+
+
+
+  if(hitDrone0){
+    droneIt=0
+    noReTag=millis()+3000;
+  }
+  if(hitDrone1){
+    droneIt=1
+    noReTag=millis()+3000;
+  }
+if(players>2 && players<4){
+  if(hitDrone2){
+    droneIt=2
+    noReTag=millis()+3000;
+  }
+}
+if(players===4){
+  if(hitDrone3){
+    droneIt=3
+    noReTag=millis()+3000;
+  }
+}
+
+
+}
+
+
+
+}
+
+
+
+}
+
+fill(255,255,255,100)
+ellipse(drones[droneIt].getPosition().x,drones[droneIt].getPosition().y,80,80)
+
+}
+
+if(loading===3){
+
+  if(players===1){
+
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,{r:255,g:255,b:255}))
+  }
+  if(players===2){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,{r:255,g:0,b:0}))
+
+  }
+  if(players===3){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,{r:0,g:0,b:255}))
+
+  }
+  if(players===4){
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,{r:0,g:0,b:255}))
+    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,{r:0,g:255,b:0}))
+
+
+  }
+
+  platform1 = Bodies.rectangle(200, 300, 200, 30, { isStatic: true });
+  platform2 = Bodies.rectangle(width-200, 300, 200, 30, { isStatic: true });
+Composite.add(engine.world, [platform1,platform2])
+    scene=3;
+    loading=false;
+
+}
+
+if(scene===3){
+
+
+
+  textSize(30)
+  textAlign(CENTER)
+  fill(255)
+
+
+for(var i=0; i<drones.length; i++){
+
+drones[i].display();
+
+
+if(i===0){
+fill(255)
+textSize(20)
+textAlign(LEFT)
+//text("White:"+pointsP1,10,30)
+text("White Engines Angle:"+drones[i].getAngle(),10,30)
+
+}
+
+if(i===1){
+fill(255)
+textSize(20)
+textAlign(RIGHT)
+//text("Red:"+pointsP2,width-10,30)
+text("Red Engine Angle:"+drones[i].getAngle(),width-10,30)
+}
+
+if(i===2){
+fill(255)
+textSize(20)
+textAlign(LEFT)
+//text("Blue:"+pointsP3,10,height-30)
+text("Blue Engines Angle:"+drones[i].getAngle(),10,height-10)
+
+}
+
+if(i===3){
+fill(255)
+textSize(20)
+textAlign(RIGHT)
+//text("Green:"+pointsP4,width-10,height-30)
+text("Green Engines Angle:"+drones[i].getAngle(),width-10,height-10)
+
+}
+
+//text(round(drones[i].getPosition().x)+","+round(drones[i].getPosition().y),20,80+(20*i))
+
+
+
+
+
+
+}
+
+fill(50)
+rectMode(CENTER)
+rect(200, 300, 200, 30)
+rect(width-200, 300, 200, 30)
+rectMode(CORNER)
+
+
+
+}
+
+
+if(scene===0){
+
+  var playbutton=button(width/2,height/2-100,400,50)
+  var playersincrease=button((width/2)+175,height/2,40,40)
+  var playersdecrease=button((width/2)-175,height/2,40,40)
+
+  var gamemodebutton=button(width/2,height/2+100,400,50)
+
+  if(playbutton[0]){
+    fill(255)
+    text("LOADING...",width/2,height/2)
+
+    loading=gamemode+1;
+
+
+  }
+  //print(button(width/2,height/2,20,20))
+  if(loading===false){
+  if(playbutton[1]===false){
+  fill(50)
+  }
+  if(playbutton[1]){
+  fill(70)
+  }
+  rectMode(CENTER)
+  rect(width/2,height/2-100,400,50,10)
+  textAlign(CENTER)
+  textSize(20)
+  fill(255)
+  text("PLAY",width/2,height/2-92.5)
+
+
+
+  fill(50)
+  rect(width/2,height/2,400,50,10)
+  fill(255)
+  text("PLAYERS: "+players,width/2,height/2+8)
+  if(playersincrease[1]){
+  fill(150)
+  }
+  if(playersincrease[1]===false){
+  fill(100)
+  }
+  rect((width/2)+175,height/2,40,40,10)
+  if(playersdecrease[1]){
+  fill(150)
+  }
+  if(playersdecrease[1]===false){
+  fill(100)
+  }
+
+  rect((width/2)-175,height/2,40,40,10)
+
+
+  if(playersincrease[0]){
+    players=players+1;
+    if(players>4){
+      players=4;
+    }
+  }
+  if(playersdecrease[0]){
+    players=players-1;
+    if(players<1){
+      players=1
+    }
+  }
+
+
+  if(gamemodebutton[1]){
+  fill(70)
+  }
+  if(gamemodebutton[1]===false){
+  fill(50)
+  }
+  rect(width/2,height/2+100,400,50,10)
+
+  if(gamemodebutton[0]){
+
+    gamemode=gamemode+1;
+
+    if(gamemode>2){
+      gamemode=0;
+    }
+
+  }
+
+  if(gamemode===0){
+
+    fill(255)
+    text("Reach the Goal",width/2,height/2+108)
+    requiredPlayers=1;
+
+
+  }
+
+  if(gamemode===1){
+
+    fill(255)
+    text("Drone Tag",width/2,height/2+108)
+    requiredPlayers=2;
+    if(players<requiredPlayers){
+
+      players=requiredPlayers
+
+    }
+
+
+  }
+
+  if(gamemode===2){
+
+    fill(255)
+    text("Freeplay",width/2,height/2+108)
+    requiredPlayers=1;
+    if(players<requiredPlayers){
+
+      players=requiredPlayers
+
+    }
+
+
+  }
+
+
+  }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+fill(0,255,255)
+//text(round(frameRate()),400,30)
+
+
+
+
 pamount=0;
 
 }
@@ -1834,20 +2264,76 @@ function keyPressed(){
 
 
 
+
+
 	keys[keyCode]=true;
 
 }
 
 function keyReleased(){
 
+  if(keys[27]){
+
+
+    scene=0
+    drones=[];
+    print(engine.world.bodies.length)
+    var arrlength=engine.world.bodies.length;
+    var removebodies=[]
+
+
+
+
+
+          Matter.World.clear(engine.world);
+          //Engine.clear(engine);
+
+
+
+
+
+    ground = Bodies.rectangle(width/2, height+30, width+1000, 60, { isStatic: true });
+    roof = Bodies.rectangle(width/2, -30, width+1000, 60, { isStatic: true });
+    ground.restitution=0.25;
+
+    wall1 = Bodies.rectangle(-30, height/2, 60, height+1000, { isStatic: true });
+    wall2 = Bodies.rectangle(width+30, height/2, 60, height+1000, { isStatic: true });
+
+
+
+    Composite.add(engine.world, [ground,roof,wall1,wall2]);
+
+
+
+
+
+  }
+
+  if(keys[220]){
+
+
+  print(engine.world.bodies)
+
+  }
+
   if(keys[82]){
 
     goal={x:random(20,width-20),y:random(20,height-50)}
     pointsP1=0;
     pointsP2=0;
+    pointsP3=0;
+    pointsP4=0;
+    goalSize=200;
 
   }
 
 	keys[keyCode]=false;
+
+}
+
+
+function mouseReleased() {
+
+clicked=false;
 
 }
