@@ -885,7 +885,7 @@ this.engineSound1.setVolume(0,0.1)
 this.engineOn[0]=false;
 
 }
-if(keys[this.thrustControlRight]===false || controller1right===false && this.controllerIndex===0 && controllerA!==undefined || controller2right===false && this.controllerIndex===1 && controllerB!==undefined || rightScreenClick){
+if(keys[this.thrustControlRight]===false || controller1right===false && this.controllerIndex===0 && controllerA!==undefined || controller2right===false && this.controllerIndex===1 && controllerB!==undefined || rightScreenClick===false){
 this.smokeidle1.emit(1)
 this.engineSound2.setVolume(0,0.1)
 this.engineOn[1]=false;
