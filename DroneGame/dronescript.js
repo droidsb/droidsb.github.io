@@ -99,6 +99,9 @@ var gamemode=0;
 
 var requiredPlayers=0;
 
+var leftScreenClick=false;
+var rightScreenClick=false;
+
 var resetBodies=[];
 
 var textures=[];
@@ -802,7 +805,7 @@ if(autofly===true || autofly===false){
 //text(bruh,200,200)
   //print(this.cUp)
 
-if(keys[this.thrustControlLeft] || controller1left===true && this.controllerIndex===0 && controllerA!==undefined || controller2left===true && this.controllerIndex===1 && controllerB!==undefined){
+if(keys[this.thrustControlLeft] || controller1left===true && this.controllerIndex===0 && controllerA!==undefined || controller2left===true && this.controllerIndex===1 && controllerB!==undefined || leftScreenClick){
 //print("test")
 var thruster1x=(power1) * Math.cos(((this.cbox.angle*180/Math.PI)+90+this.tanglel) * Math.PI / 180)
 var thruster1y=(power1) * Math.sin(((this.cbox.angle*180/Math.PI)+90+this.tanglel) * Math.PI / 180)
@@ -832,7 +835,7 @@ this.engineSound1.play();
 }
 }
 
-if(keys[this.thrustControlRight] || controller1right===true && this.controllerIndex===0 && controllerA!==undefined || controller2right===true && this.controllerIndex===1 && controllerB!==undefined){
+if(keys[this.thrustControlRight] || controller1right===true && this.controllerIndex===0 && controllerA!==undefined || controller2right===true && this.controllerIndex===1 && controllerB!==undefined || rightScreenClick){
 
 var thruster2x=(power2) * Math.cos(((this.cbox.angle*180/Math.PI)+90+this.tangler) * Math.PI / 180)
 var thruster2y=(power2) * Math.sin(((this.cbox.angle*180/Math.PI)+90+this.tangler) * Math.PI / 180)
@@ -864,7 +867,7 @@ this.engineSound2.play();
 
 
 
-if(keys[this.thrustControlLeft]===false || controller1left===false && this.controllerIndex===0 && controllerA!==undefined || controller2left===false && this.controllerIndex===1 && controllerB!==undefined){
+if(keys[this.thrustControlLeft]===false || controller1left===false && this.controllerIndex===0 && controllerA!==undefined || controller2left===false && this.controllerIndex===1 && controllerB!==undefined || leftScreenClick===false){
 
 
 
@@ -873,7 +876,7 @@ this.engineSound1.setVolume(0,0.1)
 this.engineOn[0]=false;
 
 }
-if(keys[this.thrustControlRight]===false || controller1right===false && this.controllerIndex===0 && controllerA!==undefined || controller2right===false && this.controllerIndex===1 && controllerB!==undefined){
+if(keys[this.thrustControlRight]===false || controller1right===false && this.controllerIndex===0 && controllerA!==undefined || controller2right===false && this.controllerIndex===1 && controllerB!==undefined || rightScreenClick){
 this.smokeidle1.emit(1)
 this.engineSound2.setVolume(0,0.1)
 this.engineOn[1]=false;
@@ -3123,6 +3126,31 @@ pamount=0;
 
 function mouseDragged(){
 
+
+
+}
+
+function mouseIsPressed(){
+
+  if(mouseX<width/2){
+
+    leftScreenClick=true;
+
+
+  }
+
+  if(mouseX>width/2){
+
+    rightScreenClick=true;
+
+  }
+
+}
+
+function mouseReleased(){
+
+  leftScreenClick=true;
+  rightScreenClick=true;
 
 
 }
