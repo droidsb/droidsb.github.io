@@ -3140,20 +3140,34 @@ function mouseDragged(){
 function touchStarted() {
 
   clicks++;
+  
+for(var i =0; i<touches.length; i++){
+
+
 if(loading===false && clicks>1){
-  if(mouseX<width/2){
 
-    leftScreenClick=true;
+if(touches[i].x<width/2){
 
+leftScreenClick=true;
 
-  }
-
-  if(mouseX>width/2){
-
-    rightScreenClick=true;
-
-  }
 }
+
+if(touches[i].x>width/2){
+
+rightscreenClick=true;
+
+
+}
+
+
+}
+
+
+}
+
+
+
+
 
 
 }
