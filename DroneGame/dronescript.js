@@ -3158,8 +3158,8 @@ if(loading===false && clicks>1){
 
 function mouseReleased(){
 
-  leftScreenClick=true;
-  rightScreenClick=true;
+  leftScreenClick=false;
+  rightScreenClick=false;
 
 
 }
