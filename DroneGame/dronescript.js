@@ -102,6 +102,8 @@ var requiredPlayers=0;
 var leftScreenClick=false;
 var rightScreenClick=false;
 
+var clicks=0;
+
 var resetBodies=[];
 
 var textures=[];
@@ -3122,6 +3124,11 @@ fill(0,255,255)
 
 pamount=0;
 
+if(loading){
+clicks=0;
+
+}
+
 }
 
 function mouseDragged(){
@@ -3130,8 +3137,9 @@ function mouseDragged(){
 
 }
 
-function mouseIsPressed(){
-
+function mousePressed(){
+  clicks++;
+if(loading===false && clicks>1){
   if(mouseX<width/2){
 
     leftScreenClick=true;
@@ -3144,6 +3152,7 @@ function mouseIsPressed(){
     rightScreenClick=true;
 
   }
+}
 
 }
 
