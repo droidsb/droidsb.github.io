@@ -13,6 +13,8 @@ var canvasscale=2;
 var cwidth=3072;
 var cheight=1920;
 
+var screentouch=[false,false]
+
 
 var px=10;
 var py=300;
@@ -3129,6 +3131,11 @@ clicks=0;
 
 }
 
+leftScreenClick=screentouch[0]
+rightScreenClick=screentouch[1]
+
+
+
 }
 
 function mouseDragged(){
@@ -3148,13 +3155,13 @@ if(loading===false && clicks>1){
 
 if(touches[i].x<width/2){
 
-leftScreenClick=true;
+screentouch[0]=true;
 
 }
 
 if(touches[i].x>width/2){
 
-rightscreenClick=true;
+screentouch[1]=true;
 
 
 }
@@ -3258,8 +3265,38 @@ clicked=false;
 
 function touchEnded() {
 
+/*
+
 leftScreenClick=false;
+
+
 rightScreenClick=false;
+
+*/
+
+if(touches.length===0){
+
+screentouch[0]=false;
+screentouch[1]=false;
+
+
+}
+
+if(touches.length===1){
+
+if(touches[0].x>width/2){
+
+screentouch[0]=false;
+
+}
+
+if(touches[1].x<width/2){
+
+screentouch[1]=false;
+
+}
+
+}
 
 }
 
