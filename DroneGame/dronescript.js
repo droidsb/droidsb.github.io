@@ -8,6 +8,12 @@ var deleted=[];
 
 var lastparticle=0;
 
+var canvasscale=2;
+
+var cwidth=3072;
+var cheight=1920;
+
+
 var px=10;
 var py=300;
 
@@ -18,6 +24,11 @@ var Euler=2.718;
 var autofly=false;
 
 let smoketex;
+
+
+var scrollvalue=0;
+var scrollSpeed=4;
+
 
 var pamount=0;
 
@@ -48,6 +59,19 @@ let pointsP2=0;
 let pointsP3=0;
 let pointsP4=0;
 
+let player1skin=0;
+let player2skin=0;
+let player3skin=0;
+let player4skin=0;
+
+let p1Color={r:255,g:255,b:255}
+let p2Color={r:255,g:0,b:0}
+let p3Color={r:0,g:255,b:0}
+let p4Color={r:0,g:0,b:255}
+
+
+let selecting=0;
+
 var goal;
 
 var droneIt=0;
@@ -70,8 +94,167 @@ var requiredPlayers=0;
 
 var resetBodies=[];
 
+var textures=[];
+
+function dronetexture(x,y,angle,TangleL,TangleR,size,color,id){
 
 
+
+if(id!==0){
+    push()
+    translate(x,y)
+    rotate(angle)
+    scale(size)
+    rectMode(CENTER)
+    fill(100,100,100)
+    //fill(255)
+    //rect(0,0,112,10)
+    //rect(0,10,158,301)
+
+    push()
+    translate(-64,10)
+    rotate(-45)
+    //rect(0,0,32,10)
+    pop()
+    push()
+    translate(64,10)
+    rotate(45)
+    //rect(0,0,32,10)
+    pop()
+
+
+
+    image(textures[id][2],-158/2,-4.5,158,30)
+
+    fill(color.r,color.g,color.b)
+
+    //rect(0,0,100,35,5)
+
+    image(textures[id][0],-50,-17.5,100,35)
+
+
+
+  pop()
+
+    fill(color.r,color.g,color.b)
+    push()
+
+    translate(x,y)
+    rotate(angle)
+    scale(size)
+    angleMode(DEGREES)
+    rectMode(CENTER)
+
+    push()
+    translate(-70,25)
+
+    rotate(TangleL)
+    //rect(0,0,25,20,5)
+    image(textures[id][1],-25/2,-20/2,25,20)
+    pop()
+
+
+
+
+
+    push()
+    translate(70,25)
+
+    rotate(TangleR)
+    //rect(0,0,25,20,5)
+    image(textures[id][1],-25/2,-20/2,25,20)
+    pop()
+
+    pop()
+
+    push()
+    translate(x,y)
+    rotate(angle)
+    scale(size)
+    fill(255,0,0,100)
+    //rect(0,0,142,50)
+    pop()
+
+}
+
+if(id===0){
+  push()
+  translate(x,y)
+  rotate(angle)
+  scale(size)
+  rectMode(CENTER)
+  fill(100,100,100)
+  //fill(255)
+  rect(0,0,112,10)
+  //rect(0,10,158,301)
+
+  push()
+  translate(-64,10)
+  rotate(-45)
+  //rect(0,0,32,10)
+  pop()
+  push()
+  translate(64,10)
+  rotate(45)
+  //rect(0,0,32,10)
+  pop()
+
+
+
+  image(textures[id][2],-158/2,-4.5,158,30)
+
+  fill(color.r,color.g,color.b)
+
+  rect(0,0,100,35,5)
+
+  //image(textures[id][0],-50,-17.5,100,35)
+
+
+
+pop()
+
+  fill(color.r,color.g,color.b)
+  push()
+
+  translate(x,y)
+  rotate(angle)
+  scale(size)
+  angleMode(DEGREES)
+  rectMode(CENTER)
+
+  push()
+  translate(-70,25)
+
+  rotate(TangleL)
+  rect(0,0,25,20,5)
+  //image(textures[id][1],-25/2,-20/2,25,20)
+  pop()
+
+
+
+
+
+  push()
+  translate(70,25)
+
+  rotate(TangleR)
+  rect(0,0,25,20,5)
+  //image(textures[id][1],-25/2,-20/2,25,20)
+  pop()
+
+  pop()
+
+  push()
+  translate(x,y)
+  rotate(angle)
+  scale(size)
+  fill(255,0,0,100)
+  //rect(0,0,142,50)
+  pop()
+
+}
+
+}
 
 
 window.addEventListener('gc.button.press', function(event) {
@@ -326,7 +509,7 @@ return result;
 
 class drone{
 
-constructor(x,y,size,thrustControlLeft,thrustControlRight,thrustAngleLeft,thrustAngleRight,flipButton,indexc,color){
+constructor(x,y,size,thrustControlLeft,thrustControlRight,thrustAngleLeft,thrustAngleRight,flipButton,indexc,color,texture){
 this.x=x
 this.y=y
 this.size=size
@@ -344,9 +527,13 @@ this.flipButton=flipButton;
 this.tanglel=15;
 this.tangler=345;
 
+this.color=color
+
 this.r=color.r
 this.g=color.g
 this.b=color.b
+
+this.texture=texture;
 
 
 
@@ -365,7 +552,7 @@ this.smokeidle1=new ParticleEmitter(300,400,10*this.size,20*this.size,1.5,0.4,2,
 this.smokeidle2=new ParticleEmitter(300,400,10*this.size,20*this.size,1.5,0.4,2,1,1,500,500,0.97,0,{r:180,g:180,b:180},0)
 
 
-this.cbox=Bodies.rectangle(this.x,this.y, 140, 50);
+this.cbox=Bodies.rectangle(this.x,this.y, 142, 50);
 this.cbox.label="dronehitbox"
 Matter.Body.scale(this.cbox, this.size, this.size)
 Matter.Body.setMass(this.cbox,3.5)
@@ -425,7 +612,8 @@ display(){
 	this.smokeidle2.updateLocation(dronethruster1[0],dronethruster1[1])
 
 angleMode(RADIANS)
-	push()
+
+/*	push()
 		translate(this.x,this.y)
 		rotate(this.cbox.angle)
     scale(this.size)
@@ -471,7 +659,10 @@ angleMode(RADIANS)
 		rect(0,0,25,20,4)
 		pop()
 
-		pop()
+		pop()*/
+
+    dronetexture(this.x,this.y,this.cbox.angle,this.tanglel,this.tangler,this.size,this.color,this.texture)
+
 angleMode(DEGREES)
 	//var nout=this.brain.output([[(width/2)-this.x],[(height/2)-this.y],[this.cbox.velocity.x],[this.cbox.velocity.x],[cos(this.cbox.angle)],[sin(this.cbox.angle)],[this.cbox.angularVelocity]])
 
@@ -1032,152 +1223,7 @@ class NeuralNetwork {
 
 }
 
-/*class ParticleEmitter {
 
-constructor(x,y,sizeMin,sizeMax,speed,speedMinX,speedMaxX,speedMinY,speedMaxY,lifetime,fade,drag,rate,color,angle){
-
-	this.particles=[]
-
-	this.deleted=[];
-
-	this.x=x
-	this.y=y
-	this.sizeMin=sizeMin
-	this.sizeMax=sizeMax
-	this.speed=speed
-	this.speedMinX=speedMinX
-	this.speedMaxX=speedMaxX
-	this.speedMinY=speedMinY
-	this.speedMaxY=speedMaxY
-	this.lifetime=lifetime
-	this.fade=fade
-	this.drag=drag
-	this.rate=rate
-	this.color=color
-	this.angle=angle
-
-	this.lastparticle=0;
-
-
-}
-
-emit(amount){
-
-if(this.lastparticle<millis()){
-
-
-		for(var i=0; i<amount; i++){
-		let size=random(this.sizeMin,this.sizeMax)
-
-
-
-
-		let velocityX = (this.speed) * Math.cos((this.angle-90) * Math.PI / 180);
-		let velocityY = (this.speed) * Math.sin((this.angle-90) * Math.PI / 180);
-
-		let speedX=random(this.speedMinX,this.speedMaxX)
-		let speedY=random(this.speedMinY,this.speedMaxY)
-
-		velocityX=random(-speedX+velocityX,speedX+velocityX)
-		velocityY=random(-speedY+velocityY,speedY+velocityY)
-
-
-		this.particles.push({x:this.x,y:this.y,size:size,vx:velocityX,vy:velocityY,speedX:speedX,speedY:speedY,lifetime:millis()+this.lifetime,opacity:100,fade:this.fade,drag:this.drag,angle:this.angle})
-
-		this.lastparticle=millis()+this.rate
-
-		}
-
-
-}
-
-
-}
-
-display(){
-
-
-
-	for(var i=0; i<this.particles.length; i++){
-
-
-
-		var outline=200;
-//stroke(0,0,0,particles[i].opacity+20)
-		strokeWeight(this.particles[i].size);
-		stroke(this.color.r,this.color.g,this.color.b,this.particles[i].opacity)
-		//point(this.particles[i].x,this.particles[i].y)
-		tint(this.color.r,this.color.g,this.color.b,this.particles[i].opacity);
-		//tint(255, this.particles[i].opacity);
-		image(smoketex, this.particles[i].x,this.particles[i].y, this.particles[i].size, this.particles[i].size);
-		//ellipse(this.particles[i].x,this.particles[i].y,20,20)
-
-
-		noStroke()
-
-
-
-
-
-
-		this.particles[i].x+=(this.particles[i].vx)
-		this.particles[i].y+=(this.particles[i].vy)
-
-		//this.particles[i].x += this.particles[i].vx * Math.cos((this.particles[i].angle-90) * Math.PI / 180);
-		//this.particles[i].y += this.particles[i].vy * Math.sin((this.particles[i].angle-90) * Math.PI / 180);
-
-
-
-		this.particles[i].vx=this.particles[i].vx*this.particles[i].drag
-		this.particles[i].vy=this.particles[i].vy*this.particles[i].drag
-
-		if(this.particles[i].lifetime-millis()<this.particles[i].fade){
-
-			this.particles[i].opacity=this.particles[i].opacity-5
-
-		}
-
-		if(this.particles[i].lifetime<millis()){
-
-
-			this.deleted.push(i)
-
-
-		}
-
-	}
-
-
-	for(var i=0;i<this.deleted.length; i++){
-
-		this.particles.splice(this.deleted[i],1)
-
-
-
-	}
-
-	this.deleted=[]
-
-
-}
-
-
-updateAngle(angle){
-
-	this.angle=angle
-
-}
-
-updateLocation(x,y){
-
-this.x=x
-this.y=y
-
-
-}
-
-
-}*/
 
 class ParticleEmitter2 {
 
@@ -1555,11 +1601,36 @@ engine.world.gravity.y=engine.world.gravity.y*gamesize
 function preload() {
   smoketex = loadImage('smoke.png');
 
+  TemplateDroneBody = loadImage('Drone_Textures/Template_Drone/Drone_Body.png');
+  TemplateDroneThruster = loadImage('Drone_Textures/Template_Drone/Drone_Thruster.png');
+  TemplateDroneStruts = loadImage('Drone_Textures/Template_Drone/Drone_Struts.png');
+
+  CautionDroneBody = loadImage('Drone_Textures/Caution_Drone/Drone_Body.png');
+  CautionDroneThruster = loadImage('Drone_Textures/Caution_Drone/Drone_Thruster.png');
+  CautionDroneStruts = loadImage('Drone_Textures/Caution_Drone/Drone_Struts.png');
+
+  FutureDroneBody = loadImage('Drone_Textures/Future_Drone/Drone_Body.png');
+  FutureDroneThruster = loadImage('Drone_Textures/Future_Drone/Drone_Thruster.png');
+  FutureDroneStruts = loadImage('Drone_Textures/Future_Drone/Drone_Struts.png');
+
+  CodeDroneBody = loadImage('Drone_Textures/Code_Drone/Drone_Body.png');
+  CodeDroneThruster = loadImage('Drone_Textures/Code_Drone/Drone_Thruster.png');
+  CodeDroneStruts = loadImage('Drone_Textures/Code_Drone/Drone_Struts.png');
+
+  EnergizerDroneBody = loadImage('Drone_Textures/Energizer_Drone/Drone_Body.png');
+  EnergizerDroneThruster = loadImage('Drone_Textures/Energizer_Drone/Drone_Thruster.png');
+  EnergizerDroneStruts = loadImage('Drone_Textures/Energizer_Drone/Drone_Struts.png');
+
+  //for(var i=0; i<50; i++){
+  textures.push([TemplateDroneBody,TemplateDroneThruster,TemplateDroneStruts],[CautionDroneBody,CautionDroneThruster,CautionDroneStruts],[FutureDroneBody,FutureDroneThruster,FutureDroneStruts],[CodeDroneBody,CodeDroneThruster,CodeDroneStruts],[EnergizerDroneBody,EnergizerDroneThruster,EnergizerDroneStruts])
+  //}
 
 }
 
 
 function setup() {
+
+
   createCanvas(windowWidth, windowHeight);
 pixelDensity(1)
 
@@ -1609,6 +1680,8 @@ goal={x:random(20,width-20),y:random(20,height-50)}
 
 
 }
+
+
 
 
 
@@ -1665,6 +1738,9 @@ else{return [false,hit]}
 
 //var dronethruster2=[boxA.vertices[2].x,boxA.vertices[2].y];
 
+var ar=0;
+var al=360;
+
 function draw() {
 
   if(controllerB===true){
@@ -1683,24 +1759,24 @@ if(loading===1){
 
   if(players===1){
 
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,p1Color,player1skin))
   }
   if(players===2){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,p2Color,player2skin))
 
   }
   if(players===3){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,{r:255,g:0,b:0}))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,{r:0,g:0,b:255}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,p2Color,player2skin))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,p3Color,player3skin))
 
   }
   if(players===4){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,{r:255,g:0,b:0}))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,{r:0,g:0,b:255}))
-    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,{r:0,g:255,b:0}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,p2Color,player2skin))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,p3Color,player3skin))
+    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,p4Color,player4skin))
 
 
   }
@@ -1837,24 +1913,24 @@ if(loading===2){
 
   if(players===1){
 
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,p1Color,player1skin))
   }
   if(players===2){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,p2Color,player2skin))
 
   }
   if(players===3){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,{r:255,g:0,b:0}))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,{r:0,g:0,b:255}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,p2Color,player2skin))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,p3Color,player3skin))
 
   }
   if(players===4){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,{r:255,g:0,b:0}))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,{r:0,g:0,b:255}))
-    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,{r:0,g:255,b:0}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,p2Color,player2skin))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,p3Color,player3skin))
+    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,p4Color,player4skin))
 
 
   }
@@ -2006,31 +2082,32 @@ if(loading===3){
 
   if(players===1){
 
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,{r:255,g:255,b:255}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,p1Color,player1skin))
   }
   if(players===2){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,{r:255,g:0,b:0}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,p2Color,player2skin))
 
   }
   if(players===3){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,{r:255,g:0,b:0}))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,{r:0,g:0,b:255}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,p2Color,player2skin))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,p3Color,player3skin))
 
   }
   if(players===4){
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,{r:255,g:255,b:255}))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,{r:255,g:0,b:0}))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,{r:0,g:0,b:255}))
-    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,{r:0,g:255,b:0}))
+    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,p1Color,player1skin))
+    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,p2Color,player2skin))
+    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,p3Color,player3skin))
+    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,p4Color,player4skin))
 
 
   }
 
   platform1 = Bodies.rectangle(200, 300, 200, 30, { isStatic: true });
   platform2 = Bodies.rectangle(width-200, 300, 200, 30, { isStatic: true });
-Composite.add(engine.world, [platform1,platform2])
+  wallf1 = Bodies.rectangle(width/2, height/2, 30, 400, { isStatic: true });
+Composite.add(engine.world, [platform1,platform2,wallf1])
     scene=3;
     loading=false;
 
@@ -2098,6 +2175,7 @@ fill(50)
 rectMode(CENTER)
 rect(200, 300, 200, 30)
 rect(width-200, 300, 200, 30)
+rect(width/2, height/2, 30, 400)
 rectMode(CORNER)
 
 
@@ -2107,11 +2185,15 @@ rectMode(CORNER)
 
 if(scene===0){
 
-  var playbutton=button(width/2,height/2-100,400,50)
-  var playersincrease=button((width/2)+175,height/2,40,40)
-  var playersdecrease=button((width/2)-175,height/2,40,40)
+  var playbutton=button(width/2,height/2-200,400,50)
+  var playersincrease=button((width/2)+175,height/2-100,40,40)
+  var playersdecrease=button((width/2)-175,height/2-100,40,40)
 
-  var gamemodebutton=button(width/2,height/2+100,400,50)
+  var gamemodebutton=button(width/2,height/2,400,50)
+
+  var cosmeticsbutton=button(width/2,height/2+100,400,50)
+
+
 
   if(playbutton[0]){
     fill(255)
@@ -2130,25 +2212,25 @@ if(scene===0){
   fill(70)
   }
   rectMode(CENTER)
-  rect(width/2,height/2-100,400,50,10)
+  rect(width/2,height/2-200,400,50,10)
   textAlign(CENTER)
   textSize(20)
   fill(255)
-  text("PLAY",width/2,height/2-92.5)
+  text("PLAY",width/2,height/2-192.5)
 
 
 
   fill(50)
-  rect(width/2,height/2,400,50,10)
+  rect(width/2,height/2-100,400,50,10)
   fill(255)
-  text("PLAYERS: "+players,width/2,height/2+8)
+  text("PLAYERS: "+players,width/2,height/2+8-100)
   if(playersincrease[1]){
   fill(150)
   }
   if(playersincrease[1]===false){
   fill(100)
   }
-  rect((width/2)+175,height/2,40,40,10)
+  rect((width/2)+175,height/2-100,40,40,10)
   if(playersdecrease[1]){
   fill(150)
   }
@@ -2156,7 +2238,7 @@ if(scene===0){
   fill(100)
   }
 
-  rect((width/2)-175,height/2,40,40,10)
+  rect((width/2)-175,height/2-100,40,40,10)
 
 
   if(playersincrease[0]){
@@ -2179,7 +2261,7 @@ if(scene===0){
   if(gamemodebutton[1]===false){
   fill(50)
   }
-  rect(width/2,height/2+100,400,50,10)
+  rect(width/2,height/2,400,50,10)
 
   if(gamemodebutton[0]){
 
@@ -2194,7 +2276,7 @@ if(scene===0){
   if(gamemode===0){
 
     fill(255)
-    text("Reach the Goal",width/2,height/2+108)
+    text("Reach the Goal",width/2,height/2+8)
     requiredPlayers=1;
 
 
@@ -2203,7 +2285,7 @@ if(scene===0){
   if(gamemode===1){
 
     fill(255)
-    text("Drone Tag",width/2,height/2+108)
+    text("Drone Tag",width/2,height/2+8)
     requiredPlayers=2;
     if(players<requiredPlayers){
 
@@ -2217,7 +2299,7 @@ if(scene===0){
   if(gamemode===2){
 
     fill(255)
-    text("Freeplay",width/2,height/2+108)
+    text("Freeplay",width/2,height/2+8)
     requiredPlayers=1;
     if(players<requiredPlayers){
 
@@ -2228,6 +2310,22 @@ if(scene===0){
 
   }
 
+  if(cosmeticsbutton[1]){
+  fill(70)
+  }
+  if(cosmeticsbutton[1]===false){
+  fill(50)
+  }
+  rect(width/2,height/2+100,400,50,10)
+  fill(255)
+  text("Cosmetics",width/2,height/2+108)
+  if(cosmeticsbutton[0]){
+
+    scene=100;
+
+  }
+
+
 
   }
 
@@ -2237,10 +2335,525 @@ if(scene===0){
 
 }
 
+if(scene===100){
+
+  if(keys[40]){
+
+    scrollvalue+=scrollSpeed;
+
+  }
+  if(keys[38]){
+
+    scrollvalue-=scrollSpeed;
+
+  }
+
+  //Player 1 Skin Select
+
+  {
+  var player1SkinButton=button(50,80,80,80)
+  var player1R=button(20,140,20,20)
+  var player1G=button(50,140,20,20)
+  var player1B=button(80,140,20,20)
+
+  if(player1SkinButton[1] || selecting===0){
+  fill(130)
+  }
+  if(player1SkinButton[1]===false && selecting!==0){
+  fill(80)
+  }
+  rectMode(CENTER)
+  rect(50,80,80,80,5)
+  textAlign(LEFT)
+  textSize(20)
+  fill(255)
+  text("Player 1 Cosmetics",10,25)
+  dronetexture(50,80,0,15,345,0.4,p1Color,player1skin)
+
+  if(player1R[1]){
+  fill(255,100,100)
+  }
+  if(player1R[1]===false){
+  fill(255,0,0)
+  }
+  rect(20,140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p1Color.r,20,160)
+
+
+  if(player1R[0]){
+
+  p1Color.r+=5
+  if(p1Color.r>255){
+
+    p1Color.r=0;
+  }
+
+  }
+
+
+  if(player1G[1]){
+  fill(150,255,150)
+  }
+  if(player1G[1]===false){
+  fill(0,255,0)
+  }
+  rect(50,140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p1Color.g,50,160)
+
+
+  if(player1G[0]){
+
+  p1Color.g+=5
+  if(p1Color.g>255){
+
+    p1Color.g=0;
+  }
+
+  }
+
+  if(player1B[1]){
+  fill(100,100,255)
+  }
+  if(player1B[1]===false){
+  fill(0,0,255)
+  }
+  rect(80,140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p1Color.b,80,160)
+
+  if(player1B[0]){
+
+  p1Color.b+=5
+  if(p1Color.b>255){
+
+    p1Color.b=0;
+  }
+
+  }
+
+  if(player1SkinButton[0]){
+
+    selecting=0;
+
+  }
+}
+  //Player 2 Skin Select
+  {
+
+  var player2SkinButton=button(width-50,80,80,80)
+  var player2R=button(width-80,140,20,20)
+  var player2G=button(width-50,140,20,20)
+  var player2B=button(width-20,140,20,20)
+
+
+
+  if(player2SkinButton[1] || selecting===1){
+  fill(130)
+  }
+  if(player2SkinButton[1]===false && selecting!==1){
+  fill(80)
+  }
+  rectMode(CENTER)
+  rect(width-50,80,80,80,5)
+  textAlign(RIGHT)
+  fill(255)
+  textSize(20)
+  text("Player 2 Cosmetics",width-10,25)
+  dronetexture(width-50,80,0,15,345,0.4,p2Color,player2skin)
+
+
+  if(player2R[1]){
+  fill(255,100,100)
+  }
+  if(player2R[1]===false){
+  fill(255,0,0)
+  }
+  rect(width-80,140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p2Color.r,width-80,160)
+
+
+  if(player2R[0]){
+
+  p2Color.r+=5
+  if(p2Color.r>255){
+
+    p2Color.r=0;
+  }
+
+  }
+
+
+  if(player2G[1]){
+  fill(150,255,150)
+  }
+  if(player2G[1]===false){
+  fill(0,255,0)
+  }
+  rect(width-50,140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p2Color.g,width-50,160)
+
+
+  if(player2G[0]){
+
+  p2Color.g+=5
+  if(p2Color.g>255){
+
+    p2Color.g=0;
+  }
+
+  }
+
+  if(player2B[1]){
+  fill(100,100,255)
+  }
+  if(player2B[1]===false){
+  fill(0,0,255)
+  }
+  rect(width-20,140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p2Color.b,width-20,160)
+
+  if(player2B[0]){
+
+  p2Color.b+=5
+  if(p2Color.b>255){
+
+    p2Color.b=0;
+  }
+
+  }
+
+
+  if(player2SkinButton[0]){
+
+    selecting=1;
+
+  }
+}
+
+  //Player 3 Skin Select
+  {
+  var player3SkinButton=button(50,height-80,80,80)
+  var player3R=button(20,height-140,20,20)
+  var player3G=button(50,height-140,20,20)
+  var player3B=button(80,height-140,20,20)
+
+
+
+  if(player3SkinButton[1] || selecting===2){
+  fill(130)
+  }
+  if(player3SkinButton[1]===false && selecting!==2){
+  fill(80)
+  }
+  rectMode(CENTER)
+  rect(50,height-80,80,80,5)
+  textAlign(LEFT)
+  fill(255)
+  textSize(20)
+  text("Player 3 Cosmetics",10,height-15)
+  dronetexture(50,height-80,0,15,345,0.4,p3Color,player3skin)
+
+
+  if(player3R[1]){
+  fill(255,100,100)
+  }
+  if(player3R[1]===false){
+  fill(255,0,0)
+  }
+  rect(20,height-140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p3Color.r,20,height-155)
+
+
+  if(player3R[0]){
+
+  p3Color.r+=5
+  if(p3Color.r>255){
+
+    p3Color.r=0;
+  }
+
+  }
+
+
+  if(player3G[1]){
+  fill(150,255,150)
+  }
+  if(player3G[1]===false){
+  fill(0,255,0)
+  }
+  rect(50,height-140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p3Color.g,50,height-155)
+
+
+  if(player3G[0]){
+
+  p3Color.g+=5
+  if(p3Color.g>255){
+
+    p3Color.g=0;
+  }
+
+  }
+
+  if(player3B[1]){
+  fill(100,100,255)
+  }
+  if(player3B[1]===false){
+  fill(0,0,255)
+  }
+  rect(80,height-140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p3Color.b,80,height-155)
+
+  if(player3B[0]){
+
+  p3Color.b+=5
+  if(p3Color.b>255){
+
+    p3Color.b=0;
+  }
+
+  }
+
+
+
+  if(player3SkinButton[0]){
+
+    selecting=2;
+
+  }
+}
+
+  //Player 4 Skin Select
+  var player4SkinButton=button(width-50,height-80,80,80)
+  var player4R=button(width-80,height-140,20,20)
+  var player4G=button(width-50,height-140,20,20)
+  var player4B=button(width-20,height-140,20,20)
+
+
+
+  if(player4SkinButton[1] || selecting===3){
+  fill(130)
+  }
+  if(player4SkinButton[1]===false && selecting!==3){
+  fill(80)
+  }
+  rectMode(CENTER)
+  rect(width-50,height-80,80,80,5)
+  textAlign(RIGHT)
+  fill(255)
+  textSize(20)
+  text("Player 4 Cosmetics",width-10,height-15)
+  dronetexture(width-50,height-80,0,15,345,0.4,p4Color,player4skin)
+
+
+  if(player4R[1]){
+  fill(255,100,100)
+  }
+  if(player4R[1]===false){
+  fill(255,0,0)
+  }
+  rect(width-80,height-140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p4Color.r,width-80,height-155)
+
+
+  if(player4R[0]){
+
+  p4Color.r+=5
+  if(p4Color.r>255){
+
+    p4Color.r=0;
+  }
+
+  }
+
+
+  if(player4G[1]){
+  fill(150,255,150)
+  }
+  if(player4G[1]===false){
+  fill(0,255,0)
+  }
+  rect(width-50,height-140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p4Color.g,width-50,height-155)
+
+
+  if(player4G[0]){
+
+  p4Color.g+=5
+  if(p4Color.g>255){
+
+    p4Color.g=0;
+  }
+
+  }
+
+  if(player4B[1]){
+  fill(100,100,255)
+  }
+  if(player4B[1]===false){
+  fill(0,0,255)
+  }
+  rect(width-20,height-140,20,20,5)
+  fill(255)
+  textSize(10)
+  textAlign(CENTER)
+  text(p4Color.b,width-20,height-155)
+
+  if(player4B[0]){
+
+  p4Color.b+=5
+  if(p4Color.b>255){
+
+    p4Color.b=0;
+  }
+
+  }
+
+
+  if(player4SkinButton[0]){
+
+    selecting=3;
+
+  }
 
 
 
 
+
+for(var i=0; i<textures.length; i++){
+//x,y,angle,TangleL,TangleR,size,color,id
+var value=i%5
+var xpos=0;
+var ypos=0;
+var spread=200;
+
+/*if(value===0){
+
+xpos=-(spread*2);
+
+}
+if(value===1){
+
+xpos=-(spread);
+
+}
+if(value===2){
+
+xpos=0;
+
+}
+if(value===3){
+
+xpos=(spread);
+
+}
+if(value===4){
+
+xpos=(spread*2);
+
+}*/
+
+
+
+
+xpos=(value-2)*spread
+ypos=floor(i/5)*spread;
+
+
+
+var droneButton=button((width/2)+xpos,(height/2)-400+ypos+scrollvalue,180,180)
+
+  push()
+  translate(width/2,height/2)
+  if(droneButton[1]){
+  fill(150,100)
+  }
+  if(droneButton[1]===false){
+  fill(100,100)
+  }
+
+  rect(xpos,-400+ypos+scrollvalue,180,180,5)
+  if(i!==0){
+  dronetexture(xpos,-400+ypos+scrollvalue,0,15,345,1,{r:100,g:100,b:100},i)
+  }
+  if(i===0){
+  dronetexture(xpos,-400+ypos+scrollvalue,0,15,345,1,{r:255,g:255,b:255},i)
+  }
+  pop()
+
+  if(droneButton[0]){
+
+    if(selecting===0){
+
+      player1skin=i;
+
+
+    }
+    if(selecting===1){
+
+      player2skin=i;
+
+
+    }
+    if(selecting===2){
+
+      player3skin=i;
+
+
+    }
+    if(selecting===3){
+
+      player4skin=i;
+
+
+    }
+
+  }
+
+
+
+
+}
+
+}
+
+//dronetexture(200,200,0,al,ar,2,{r:255,g:255,b:255},0)
+
+//dronetexture(600,200,0,al,ar,2,{r:255,g:255,b:255},1)
+//ar--;
+//al++;
 
 
 fill(0,255,255)
@@ -2335,5 +2948,18 @@ function keyReleased(){
 function mouseReleased() {
 
 clicked=false;
+
+}
+
+/*function windowResized() {
+
+  //resizeCanvas(windowWidth, windowHeight);
+}*/
+
+function windowResized() {
+  canvas=resizeCanvas(windowWidth, windowHeight);
+
+
+
 
 }

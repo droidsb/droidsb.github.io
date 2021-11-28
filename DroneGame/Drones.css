@@ -1,1 +1,20 @@
 html, body {margin: 0; height: 100%; overflow: hidden}
+
+canvas {
+  vertical-align: middle;
+  margin: auto;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+
+  padding: 0;
+  display: block;
+  position: absolute;
+  margin:auto;
+  left: 0;
+  right: 0;
+  /* remove these two if you don't want vertical alignment */
+  top:0;
+  bottom: 0;
+
+}
