@@ -3131,6 +3131,7 @@ clicks=0;
 
 }
 
+
 leftScreenClick=screentouch[0]
 rightScreenClick=screentouch[1]
 
@@ -3290,7 +3291,7 @@ screentouch[0]=false;
 
 }
 
-if(touches[1].x<width/2){
+if(touches[0].x<width/2){
 
 screentouch[1]=false;
 
