@@ -15,6 +15,11 @@ var cheight=1920;
 
 var screentouch=[false,false]
 
+let touchScreen=false;
+
+
+let engineSound1;
+let engineSound2;
 
 var px=10;
 var py=300;
@@ -621,14 +626,14 @@ this.enginesound2;
 
 if(this.texture===2){
 
-this.engineSound1=loadSound('Sound/Future_Drone_Engine.wav');
-this.engineSound2=loadSound('Sound/Future_Drone_Engine.wav');
+this.engineSound1=engineSound1
+this.engineSound2=engineSound1
 
 }
 else{
 
-this.engineSound1=loadSound('Sound/Engine.wav');
-this.engineSound2=loadSound('Sound/Engine.wav');
+this.engineSound1=engineSound2
+this.engineSound2=engineSound2
 
 }
 
@@ -1735,6 +1740,14 @@ function preload() {
   FlameImage=loadImage('Drone_Textures/Flame.png');
 
 
+  engineSound2=loadSound('Sound/Future_Drone_Engine.wav');
+
+
+
+  engineSound1=loadSound('Sound/Engine.wav');
+
+
+
 }
 
 
@@ -1844,6 +1857,28 @@ else{return [false,hit]}
 
 }
 
+function buttonPressed(x,y,w,h){
+
+if(debug===true){
+  rectMode(CENTER)
+fill(255,0,0,100)
+rect(x,y,w,h)
+}
+
+hit = collidePointRect(mouseX, mouseY, x-(w/2), y-(h/2), w, h);
+
+
+if(mouseIsPressed && hit){
+
+return [true,hit]
+}
+else{return [false,hit]}
+
+
+
+
+}
+
 //ar dronethruster1=[boxA.vertices[3].x,boxA.vertices[3].y];
 
 //var dronethruster2=[boxA.vertices[2].x,boxA.vertices[2].y];
@@ -1852,6 +1887,9 @@ var ar=0;
 var al=360;
 
 function draw() {
+
+
+
 
   if(controllerB===true){
   controls3player=[[0,0,0,0,0],[0,0,0,0,0],[65,68,81,69,83]]
@@ -3135,15 +3173,27 @@ clicks=0;
 //leftScreenClick=screentouch[0]
 //rightScreenClick=screentouch[1]
 
-fill(255)
-text(leftScreenClick,200,200)
-text(rightScreenClick,200,250)
+
 
 //text(screentouch,200,300)
 
 
 
+
+
+
+
+fill(255)
+text(leftScreenClick,200,200)
+text(rightScreenClick,200,250)
+
+text(touches.length,200,300)
+
+
+
 }
+
+
 
 window.oncontextmenu = function(event) {
      event.preventDefault();
@@ -3158,72 +3208,21 @@ function mouseDragged(){
 }
 
 function touchStarted() {
+clicks++
+touchScreen=true;
+for (var i = 0; i < touches.length; i++) {
+  ellipse(touches[i].x, touches[i].y, 300, 300);
+  if(touches[i].x<width/2){
 
-  clicks++;
-  
+    leftScreenClick=true;
 
+  }
+  if(touches[i].x>width/2){
 
+    rightScreenClick=true;
 
-if(loading===false && clicks>2){
-
-if(touches.length===1){
-if(touches[0].x<width/2){
-
-leftScreenClick=true;
-
+  }
 }
-
-if(touches[0].x>width/2){
-
-rightScreenClick=true;
-
-
-}
-
-}
-
-
-
-
-
-
-
-
-if(touches.length===2){
-if(touches[0].x<width/2){
-
-leftScreenClick=true;
-
-}
-
-if(touches[0].x>width/2){
-
-rightScreenClick=true
-
-
-}
-
-
-if(touches[1].x<width/2){
-
-leftScreenClick=true;
-
-}
-
-if(touches[1].x>width/2){
-
-
-rightScreenClick=true;
-
-}
-
-}
-
-
-
-}
-
-
 
 
 }
@@ -3325,27 +3324,28 @@ rightScreenClick=false;
 
 if(touches.length===0){
 
-leftScreenClick=false
-rightScreenClick=false
+  leftScreenClick=false;
+
+
+  rightScreenClick=false;
 
 
 }
 
-if(touches.length===1){
+for (var i = 0; i < touches.length; i++) {
+  ellipse(touches[i].x, touches[i].y, 300, 300);
+  if(touches[i].x<width/2){
 
-if(touches[0].x>width/2){
+    rightScreenClick=false;
 
-leftScreenClick=false;
+  }
+  if(touches[i].x>width/2){
 
+    leftScreenClick=false;
+
+  }
 }
 
-if(touches[0].x<width/2){
-
-rightScreenClick=false;
-
-}
-
-}
 
 }
 
@@ -3361,3 +3361,7 @@ function windowResized() {
 
 
 }
+
+document.addEventListener('gesturestart', function(e) {
+  e.preventDefault();
+});
