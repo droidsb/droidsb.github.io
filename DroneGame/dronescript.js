@@ -3161,18 +3161,42 @@ function touchStarted() {
 
   clicks++;
   
-for(var i =0; i<touches.length; i++){
 
 
-if(loading===false && clicks>1){
 
-if(touches[i].x<width/2){
+if(loading===false && clicks>2){
+
+if(touches.length===1){
+if(touches[0].x<width/2){
 
 screentouch[0]=true;
 
 }
 
-if(touches[i].x>width/2){
+if(touches[0].x>width/2){
+
+screentouch[1]=true;
+
+
+}
+
+}
+
+
+
+}
+
+
+
+
+if(touches.length===2){
+if(touches[0].x<width/2){
+
+screentouch[0]=true;
+
+}
+
+if(touches[0].x>width/2){
 
 screentouch[1]=true;
 
@@ -3180,12 +3204,24 @@ screentouch[1]=true;
 }
 
 
+if(touches[1].x<width/2){
+
+screentouch[0]=true;
+
+}
+
+if(touches[1].x>width/2){
+
+screentouch[1]=true;
+
+
+}
+
 }
 
 
+
 }
-
-
 
 
 
