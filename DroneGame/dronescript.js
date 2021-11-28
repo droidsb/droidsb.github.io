@@ -3137,7 +3137,8 @@ function mouseDragged(){
 
 }
 
-function mouseIsPressed(){
+function touchStarted() {
+
   clicks++;
 if(loading===false && clicks>1){
   if(mouseX<width/2){
@@ -3153,6 +3154,11 @@ if(loading===false && clicks>1){
 
   }
 }
+
+
+}
+
+function mouseIsPressed(){
 
 }
 
@@ -3232,6 +3238,12 @@ function keyReleased(){
 function mouseReleased() {
 
 clicked=false;
+
+
+}
+
+function touchEnded() {
+
 leftScreenClick=false;
 rightScreenClick=false;
 
