@@ -3135,6 +3135,12 @@ clicks=0;
 leftScreenClick=screentouch[0]
 rightScreenClick=screentouch[1]
 
+fill(255)
+text(leftScreenClick,200,200)
+text(rightScreenClick,200,250)
+
+text(screentouch,200,300)
+
 
 
 }
