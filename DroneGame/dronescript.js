@@ -3145,6 +3145,12 @@ text(screentouch,200,300)
 
 }
 
+window.oncontextmenu = function(event) {
+     event.preventDefault();
+     event.stopPropagation();
+     return false;
+};
+
 function mouseDragged(){
 
 
