@@ -3139,7 +3139,7 @@ fill(255)
 text(leftScreenClick,200,200)
 text(rightScreenClick,200,250)
 
-text(screentouch,200,300)
+//text(screentouch,200,300)
 
 
 
@@ -3184,7 +3184,7 @@ rightScreenClick=true;
 
 
 
-}
+
 
 
 
