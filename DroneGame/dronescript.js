@@ -626,13 +626,13 @@ this.enginesound2;
 
 if(this.texture===2){
 
-this.engineSound1=engineSound1
-this.engineSound2=engineSound1
+this.engineSound1=engineSound3
+this.engineSound2=engineSound4
 
 }
 else{
 
-this.engineSound1=engineSound2
+this.engineSound1=engineSound1
 this.engineSound2=engineSound2
 
 }
@@ -1739,12 +1739,15 @@ function preload() {
 
   FlameImage=loadImage('Drone_Textures/Flame.png');
 
-
-  engineSound2=loadSound('Sound/Future_Drone_Engine.wav');
-
-
-
   engineSound1=loadSound('Sound/Engine.wav');
+  engineSound2=loadSound('Sound/Engine.wav');
+
+  engineSound3=loadSound('Sound/Future_Drone_Engine.wav');
+  engineSound4=loadSound('Sound/Future_Drone_Engine.wav');
+
+
+
+
 
 
 
@@ -3223,6 +3226,9 @@ for (var i = 0; i < touches.length; i++) {
 
   }
 }
+
+
+  userStartAudio();
 
 
 }
