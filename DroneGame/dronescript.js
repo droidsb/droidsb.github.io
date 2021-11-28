@@ -3132,8 +3132,8 @@ clicks=0;
 }
 
 
-leftScreenClick=screentouch[0]
-rightScreenClick=screentouch[1]
+//leftScreenClick=screentouch[0]
+//rightScreenClick=screentouch[1]
 
 fill(255)
 text(leftScreenClick,200,200)
@@ -3169,13 +3169,13 @@ if(loading===false && clicks>2){
 if(touches.length===1){
 if(touches[0].x<width/2){
 
-screentouch[0]=true;
+leftScreenClick=true;
 
 }
 
 if(touches[0].x>width/2){
 
-screentouch[1]=true;
+rightScreenClick=true;
 
 
 }
@@ -3192,13 +3192,13 @@ screentouch[1]=true;
 if(touches.length===2){
 if(touches[0].x<width/2){
 
-screentouch[0]=true;
+leftScreenClick=true;
 
 }
 
 if(touches[0].x>width/2){
 
-screentouch[1]=true;
+rightScreenClick=true
 
 
 }
@@ -3206,14 +3206,14 @@ screentouch[1]=true;
 
 if(touches[1].x<width/2){
 
-screentouch[0]=true;
+leftScreenClick=true;
 
 }
 
 if(touches[1].x>width/2){
 
-screentouch[1]=true;
 
+rightScreenClick=true;
 
 }
 
@@ -3325,8 +3325,8 @@ rightScreenClick=false;
 
 if(touches.length===0){
 
-screentouch[0]=false;
-screentouch[1]=false;
+leftScreenClick=false
+rightScreenClick=false
 
 
 }
@@ -3335,13 +3335,13 @@ if(touches.length===1){
 
 if(touches[0].x>width/2){
 
-screentouch[0]=false;
+leftScreenClick=false;
 
 }
 
 if(touches[0].x<width/2){
 
-screentouch[1]=false;
+rightScreenClick=false;
 
 }
 
