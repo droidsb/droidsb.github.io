@@ -2,7 +2,7 @@ var keys=[];
 
 var debug=false;
 
-var scene=4;
+var scene=0;
 var loading=false;
 
 //var levels=['[{"type":"rect","x":0,"y":100,"w":2000,"h":40,"r":200,"g":200,"b":200},{"type":"rect","x":-410,"y":30,"w":500,"h":100,"r":164,"g":116,"b":73},{"type":"rect","x":-520,"y":-450,"w":960,"h":40,"r":200,"g":200,"b":200},{"type":"rect","x":520,"y":-450,"w":960,"h":40,"r":200,"g":200,"b":200},{"type":"rect","x":-520,"y":-480,"w":960,"h":20,"r":100,"g":100,"b":100},{"type":"rect","x":520,"y":-480,"w":960,"h":20,"r":100,"g":100,"b":100},{"type":"rect","x":0,"y":-920,"w":3340,"h":700,"r":100,"g":100,"b":100},{"type":"rect","x":-980,"y":-190,"w":40,"h":560,"r":200,"g":200,"b":200},{"type":"rect","x":980,"y":-170,"w":40,"h":560,"r":200,"g":200,"b":200},{"type":"rect","x":-1320,"y":100,"w":700,"h":40,"r":200,"g":200,"b":200},{"type":"rect","x":-1650,"y":-170,"w":40,"h":560,"r":200,"g":200,"b":200},{"type":"rect","x":-1380,"y":-450,"w":580,"h":40,"r":200,"g":200,"b":200},{"type":"rect","x":-1380,"y":-480,"w":580,"h":20,"r":100,"g":100,"b":100},{"type":"rect","x":-410,"y":-70,"w":300,"h":100,"r":164,"g":116,"b":73},{"type":"rect","x":-410,"y":-170,"w":100,"h":100,"r":164,"g":116,"b":73}]'];
@@ -20,7 +20,7 @@ levels[i]=JSON.parse(levels[i])
 
 let tf = new Transformer()
 
-var camspeed=2;
+var camspeed=5;
 
 
 
@@ -2562,31 +2562,31 @@ if(scene===1000){
 
 if(loading===1001){
 
-  var player1spawn={x:0,y:0}
+  var player1spawn={x:-20,y:0}
   var player2spawn={x:0,y:0}
-  var player3spawn={x:0,y:0}
-  var player4spawn={x:0,y:0}
+  var player3spawn={x:20,y:0}
+  var player4spawn={x:40,y:0}
 
   if(players===1){
 
     drones.push(new drone(player1spawn.x,player1spawn.y,gamesize,controls1player[0][0],controls1player[0][1],controls1player[0][2],controls1player[0][3],controls1player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
   }
   if(players===2){
-    drones.push(new drone((width/2)-200,height-100,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,p2Color,player2skin,p2ExhaustColor,2))
+    drones.push(new drone(player1spawn.x,player1spawn.y,gamesize,controls2player[0][0],controls2player[0][1],controls2player[0][2],controls2player[0][3],controls2player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
+    drones.push(new drone(player2spawn.x,player2spawn.y,gamesize,controls2player[1][0],controls2player[1][1],controls2player[1][2],controls2player[1][3],controls2player[1][4],1,p2Color,player2skin,p2ExhaustColor,2))
 
   }
   if(players===3){
-    drones.push(new drone((width/2)-200,height-100,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,p2Color,player2skin,p2ExhaustColor,2))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,p3Color,player3skin,p3ExhaustColor,3))
+    drones.push(new drone(player1spawn.x,player1spawn.y,gamesize,controls3player[0][0],controls3player[0][1],controls3player[0][2],controls3player[0][3],controls3player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
+    drones.push(new drone(player2spawn.x,player2spawn.y,gamesize,controls3player[1][0],controls3player[1][1],controls3player[1][2],controls3player[1][3],controls3player[1][4],1,p2Color,player2skin,p2ExhaustColor,2))
+    drones.push(new drone(player3spawn.x,player3spawn.y,gamesize,controls3player[2][0],controls3player[2][1],controls3player[2][2],controls3player[2][3],controls3player[2][4],2,p3Color,player3skin,p3ExhaustColor,3))
 
   }
   if(players===4){
-    drones.push(new drone((width/2)-200,height-100,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
-    drones.push(new drone((width/2)-100,height-100,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,p2Color,player2skin,p2ExhaustColor,2))
-    drones.push(new drone((width/2)+100,height-100,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,p3Color,player3skin,p3ExhaustColor,3))
-    drones.push(new drone((width/2)+200,height-100,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,p4Color,player4skin,p4ExhaustColor,4))
+    drones.push(new drone(player1spawn.x,player1spawn.y,gamesize,controls4player[0][0],controls4player[0][1],controls4player[0][2],controls4player[0][3],controls4player[0][4],0,p1Color,player1skin,p1ExhaustColor,1))
+    drones.push(new drone(player2spawn.x,player2spawn.y,gamesize,controls4player[1][0],controls4player[1][1],controls4player[1][2],controls4player[1][3],controls4player[1][4],1,p2Color,player2skin,p2ExhaustColor,2))
+    drones.push(new drone(player3spawn.x,player3spawn.y,gamesize,controls4player[2][0],controls4player[2][1],controls4player[2][2],controls4player[2][3],controls4player[2][4],2,p3Color,player3skin,p3ExhaustColor,3))
+    drones.push(new drone(player4spawn.x,player4spawn.y,gamesize,controls4player[3][0],controls4player[3][1],controls4player[3][2],controls4player[3][3],controls4player[3][4],2,p4Color,player4skin,p4ExhaustColor,4))
 
 
   }
