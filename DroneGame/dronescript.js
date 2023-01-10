@@ -1294,7 +1294,7 @@ var engine = Engine.create();
 var ground;
 
 //engine.gravity=engine.gravity*gamesize;
-engine.world.gravity.y=engine.world.gravity.y
+engine.world.gravity.y=engine.world.gravity.y*2
 engine.world.gravity.y=engine.world.gravity.y*gamesize
 
 function preload() {
