@@ -866,7 +866,7 @@ class drone {
 
 
 
-
+    text(delta, 200, 200)
 
 
 
@@ -885,7 +885,7 @@ class drone {
       this.smoke.emit(1)
       this.engineOn[0] = true;
       //
-      Matter.Body.applyForce(this.cbox, { x: this.cbox.vertices[3].x, y: this.cbox.vertices[3].y }, { x: thruster1x, y: thruster1y })
+      Matter.Body.applyForce(this.cbox, { x: this.cbox.vertices[3].x, y: this.cbox.vertices[3].y }, { x: thruster1x * delta * 100, y: thruster1y * delta * 100 })
 
       if (this.engineSound1.isPlaying()) {
         this.engineSound1.setVolume(1, 0.001)
@@ -916,7 +916,7 @@ class drone {
       this.smoke3.emit(1)
       this.engineOn[1] = true;
 
-      Matter.Body.applyForce(this.cbox, { x: this.cbox.vertices[2].x, y: this.cbox.vertices[2].y }, { x: thruster2x, y: thruster2y })
+      Matter.Body.applyForce(this.cbox, { x: this.cbox.vertices[2].x, y: this.cbox.vertices[2].y }, { x: thruster2x * delta * 100, y: thruster2y * delta * 100 })
       if (this.engineSound2.isPlaying()) {
         this.engineSound2.setVolume(1, 0.001)
 
@@ -1548,7 +1548,7 @@ function getCurrentFPS(lastCalledTime) {
 
 
 function draw() {
-  frameRate(60)
+
   engine.timing.timeScale = 0.8;
   engine.isFixed = true;
   GCFPSOutput = getCurrentFPS(lastCalledTime);
@@ -1558,10 +1558,10 @@ function draw() {
   delta = GCFPSOutput[1];
   lastCalledTime = GCFPSOutput[2];
 
-  console.log(delta)
+
 
   // Updates engine with delta
-  Engine.update(engine, delta * 0.001);
+
 
 
   controls1player = [[keys[65], keys[68], keys[81], keys[69], keys[83]]]
@@ -4406,7 +4406,7 @@ function draw() {
 
 
 
-  text(round(displayfps), 200, 200)
+  //text(round(displayfps), 200, 200)
 
 
 
