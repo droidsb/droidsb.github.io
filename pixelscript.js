@@ -16,6 +16,8 @@ var textureVariance = 25;
 
 var pixes;
 
+var pixPressure;
+
 var pixRan;
 
 var pixRanLiquid;
@@ -50,6 +52,14 @@ function preload() {
 function setup() {
 
 
+	var loadSave = getItem("save");
+
+	if (loadSave !== null) {
+
+		loadingSave = true;
+
+	}
+
 	createCanvas(1000, 800);
 
 	noCursor();
@@ -64,6 +74,8 @@ function setup() {
 	pixes = new Array(pixels.length / 4)
 
 	pixRan = new Array(pixels.length / 4)
+
+	pixPressure = new Array(pixels.length / 4).fill(0);
 
 	pixRanLiquid = new Array(pixels.length)
 
@@ -200,9 +212,103 @@ var chosen = sand;
 
 var bruh = false;
 
+var loadingSave = false;
+
 var draw = function () {
 
 
+	if (loadingSave == true) {
+
+
+
+		var loadSave = getItem("save");
+
+		var tempSave2 = new Array(pixels.length / 4).fill(undefined);
+
+
+
+		for (var i = 0; i < loadSave.length; i++) {
+
+			if (loadSave[i] != -1) {
+				if (loadSave[i] == 1) {
+
+					tempSave2[i] = sand;
+
+				}
+
+				/*var sand = { id: 1, friction: 1, speed: 1, viscosity: 0, liquid: false, flammable: true, r: 194, g: 178, b: 128 }
+var stone = { id: 2, friction: 4, speed: 3, viscosity: 0, liquid: false, flammable: false, r: 100, g: 100, b: 100 }
+var dirt = { id: 3, friction: 1, speed: 3, viscosity: 0, liquid: false, flammable: false, r: 155, g: 118, b: 83 }
+var grass = { id: 4, friction: 1, speed: 2, viscosity: 0, liquid: false, flammable: false, r: 30, g: 150, b: 30 }
+var water = { id: 5, friction: 1, speed: 3, viscosity: 6, liquid: true, flammable: false, r: 110, g: 110, b: 255 }
+var oil = { id: 6, friction: 1, speed: 3, viscosity: 2, liquid: true, flammable: true, r: 44, g: 36, b: 22 }
+var fire = { id: 7, friction: 1, speed: 0, viscosity: 0, liquid: false, flammable: false, r: 255, g: 0, b: 0 }
+var metal = { id: 8, friction: 0, speed: 0, viscosity: 0, liquid: false, flammable: false, r: 80, g: 80, b: 80 }
+var fuse = { id: 9, friction: 0, speed: 0, viscosity: 0, liquid: false, flammable: true, r: 100, g: 220, b: 100 }
+var lava = { id: 10, friction: 1, speed: 3, viscosity: 2, liquid: true, flammable: false, r: 207, g: 48, b: 16 } */
+
+				if (loadSave[i] == 1) {
+
+					tempSave2[i] = sand;
+
+				}
+
+				if (loadSave[i] == 2) {
+
+					tempSave2[i] = stone;
+
+				}
+				if (loadSave[i] == 3) {
+
+					tempSave2[i] = dirt;
+
+				}
+				if (loadSave[i] == 4) {
+
+					tempSave2[i] = grass;
+
+				}
+				if (loadSave[i] == 5) {
+
+					tempSave2[i] = water;
+
+				}
+				if (loadSave[i] == 6) {
+
+					tempSave2[i] = oil;
+
+				}
+				if (loadSave[i] == 7) {
+
+					tempSave2[i] = fire;
+
+				}
+				if (loadSave[i] == 8) {
+
+					tempSave2[i] = metal;
+
+				}
+				if (loadSave[i] == 9) {
+
+					tempSave2[i] = fuse;
+
+				}
+				if (loadSave[i] == 10) {
+
+					tempSave2[i] = lava;
+
+				}
+			}
+
+
+		}
+
+		loadingSave = false;
+		//console.log(tempSave2)
+		pixes = tempSave2;
+		paused = false;
+
+	}
 
 
 
@@ -229,7 +335,9 @@ var draw = function () {
 
 			for (var i = n; i > n - (width); i--) {
 
-
+				if (pixes[i] !== undefined && pixes[i].liquid == false) {
+					pixPressure[i] = 0;
+				}
 
 				//gravityfric
 				if (pixes[i] !== undefined && pixes[i].friction > 0 && pixes[i + width] !== undefined && pixes[i].id !== 7) {
@@ -338,6 +446,57 @@ var draw = function () {
 
 
 					}
+
+
+
+
+					/*if (pixes[i - width] == undefined && pixes[i + width] != undefined && pixes[i + width].liquid == true && pixPressure[i] > 1) {
+
+						if (pixes[i - (width * 2)] == undefined) {
+							pixes[i - (width * 2)] = pixes[i];
+							pixes[i] = undefined;
+							pixPressure[i] = 0;
+						}
+
+
+					}*/
+
+					//pixPressure[i] = Math.max(pixPressure[i], Math.max(pixPressure[i - 1], pixPressure[i + 1]) - 1);
+
+
+					/*if (pixes[i - 1] != undefined && pixes[i - 1].liquid == true && pixPressure[i - 1] < pixPressure[i] - 1) {
+						pixPressure[i - 1] = pixPressure[i] - 1;
+					}*/
+
+
+					/*if (pixes[i - width] == undefined && pixes[i + width] != undefined && pixes[i + width].liquid == true && pixPressure[i] > 1) {
+
+						if (pixes[i - (width * pixPressure[i])] == undefined) {
+							pixes[i - (width * pixPressure[i])] = pixes[i];
+							pixes[i] = undefined;
+							pixPressure[i] = 0;
+						}
+
+					}*/
+
+
+
+
+
+					/*if (pixes[i - width] !== undefined && pixes[i - width].liquid == false && pixPressure[i] < pixPressure[i - 1] - 1) {
+						pixPressure[i] = pixPressure[i - 1] - 1;
+					}*/
+
+
+
+
+
+
+
+
+
+
+
 				}
 
 				//seep
@@ -621,6 +780,8 @@ var draw = function () {
 
 							pixes[i] = undefined;
 
+
+
 						}
 
 					}
@@ -690,6 +851,31 @@ var draw = function () {
 
 
 					}
+
+					/*if (pixes[i - width] !== undefined && pixes[i - width].liquid == true && pixPressure[i] < pixPressure[i] + 1) {
+						pixPressure[i] = pixPressure[i - width] + 1;
+					}
+
+					if (pixPressure[i - 1] > pixPressure[i] + 1) {
+						pixPressure[i] = pixPressure[i - 1] - 1;
+					}
+
+					if (pixPressure[i + 1] > pixPressure[i] + 1) {
+						pixPressure[i] = pixPressure[i + 1] - 1;
+					}*/
+
+					/*if (pixes[i + width] !== undefined && pixes[i + width].liquid == true && pixPressure[i + width] - 1 > pixPressure[i]) {
+						pixPressure[i] = pixPressure[i + width] - 1;
+					}
+
+					if (pixes[i + 1] != undefined && pixes[i + 1].liquid == true && pixPressure[i + 1] < pixPressure[i] - 1) {
+						pixPressure[i + 1] = pixPressure[i] - 1;
+					}*/
+
+
+
+
+
 				}
 
 
@@ -811,12 +997,17 @@ var draw = function () {
 
 	for (var i = 0; i < pixes.length; i++) {
 
-
 		if (pixes[i] !== undefined) {
 
 			//console.log(pixRan[i])
 
 			var variance = pixRan[i];
+
+			var pressure = pixPressure[i] / 2;
+
+			if (pressure == undefined) {
+				pressure = 0;
+			}
 
 			if (pixes[i].liquid == true) {
 				variance = pixRanLiquid[i + (pixes.length * liquidFrame)];
@@ -824,9 +1015,11 @@ var draw = function () {
 
 			}
 
-			pixels[(i * 4)] = pixes[i].r + variance;
-			pixels[(i * 4) + 1] = pixes[i].g + variance;
-			pixels[(i * 4) + 2] = pixes[i].b + variance;
+			variance = 0;
+
+			pixels[(i * 4)] = (pixes[i].r + variance) - pressure;
+			pixels[(i * 4) + 1] = (pixes[i].g + variance) - pressure;
+			pixels[(i * 4) + 2] = (pixes[i].b + variance) - pressure;
 
 
 
@@ -843,6 +1036,238 @@ var draw = function () {
 		}
 
 	}
+
+
+	/*
+	
+		for (var i = 0; i < pixes.length; i++) {
+	
+	
+	
+			if (pixes[i - 1] == undefined && pixPressure[i] > 1) {
+	
+				pixes[i - 1] = pixes[i];
+				pixes[i] = undefined;
+	
+			}
+	
+		}
+	
+		for (var i = pixes.length; i > 0; i--) {
+	
+	
+			if (pixes[i + 1] == undefined && pixPressure[i] > 1) {
+	
+				pixes[i + 1] = pixes[i];
+				pixes[i] = undefined;
+	
+			}
+	
+		}
+	
+	
+		pixPressure.fill(0)
+	
+	
+		for (var i = 0; i < pixes.length; i++) {
+	
+			if (pixes[i] != undefined && pixes[i].liquid == true) {
+	
+				if (pixes[i - width] == undefined) {
+					pixPressure[i] = 1;
+				}
+	
+				if (pixes[i - width] != undefined && pixes[i - width].liquid == true) {
+	
+					pixPressure[i] = pixPressure[i - width] + 1;
+	
+				}
+	
+				if (pixes[i - 1] != undefined && pixes[i - 1].liquid == true && pixPressure[i - 1] > pixPressure[i]) {
+					pixPressure[i] = pixPressure[i - 1];
+				}
+	
+	
+	
+	
+	
+			}
+	
+	
+	
+	
+		}
+	
+		var oldpixes = pixes;
+	
+		for (var i = pixes.length; i > 0; i--) {
+	
+			if (pixes[i] != undefined && pixes[i].liquid == true) {
+	
+	
+	
+				if (pixes[i + width] != undefined && pixes[i + width].liquid == true) {
+	
+					pixPressure[i] = pixPressure[i + width] - 1;
+	
+				}
+	
+				if (pixes[i + 1] != undefined && pixes[i + 1].liquid == true && pixPressure[i + 1] > pixPressure[i]) {
+					pixPressure[i] = pixPressure[i + 1];
+				}
+	
+	
+	
+	
+	
+	
+	
+			}
+	
+	
+	
+	
+	
+	
+	
+		}
+	
+	
+		for (var i = 0; i < pixes.length; i++) {
+	
+			if (pixes[i] != undefined && pixes[i].liquid == true) {
+	
+				if (pixes[i - width] == undefined) {
+					pixPressure[i] = 1;
+				}
+	
+				if (pixes[i - width] != undefined && pixes[i - width].liquid == true) {
+	
+					pixPressure[i] = pixPressure[i - width] + 1;
+	
+				}
+	
+				if (pixes[i - 1] != undefined && pixes[i - 1].liquid == true && pixPressure[i - 1] > pixPressure[i]) {
+					pixPressure[i] = pixPressure[i - 1];
+				}
+	
+	
+	
+	
+	
+			}
+	
+	
+	
+	
+		}
+	
+		var oldpixes = pixes;
+	
+		for (var i = pixes.length; i > 0; i--) {
+	
+			if (pixes[i] != undefined && pixes[i].liquid == true) {
+	
+	
+	
+				if (pixes[i + width] != undefined && pixes[i + width].liquid == true) {
+	
+					pixPressure[i] = pixPressure[i + width] - 1;
+	
+				}
+	
+				if (pixes[i + 1] != undefined && pixes[i + 1].liquid == true && pixPressure[i + 1] > pixPressure[i]) {
+					pixPressure[i] = pixPressure[i + 1];
+				}
+	
+	
+	
+	
+	
+	
+	
+			}
+	
+	
+	
+	
+	
+	
+	
+		}
+	
+	
+	
+		for (var i = 0; i < pixes.length; i++) {
+	
+			if (pixes[i] != undefined && pixes[i].liquid == true) {
+	
+	
+				for (var p = 0; p < 2; p++) {
+	
+					if (pixes[i - (width * p)] == undefined && oldpixes[i + (width * p)] != undefined && oldpixes[i + (width * p)].liquid == true && pixPressure[i] > 1) {
+	
+						if (pixes[i - (width * p)] == undefined) {
+							pixes[i - (width * p)] = pixes[i];
+							pixes[i] = undefined;
+							//pixPressure[i] = 0;
+						}
+	
+					}
+	
+				}
+	
+	
+	
+	
+	
+			}
+	
+	
+	
+	
+	
+	
+	
+		}
+	
+		for (var i = pixes.length; i > 0; i--) {
+	
+			if (pixes[i] != undefined && pixes[i].liquid == true) {
+	
+	
+	
+				for (var p = 0; p < 2; p++) {
+	
+					if (pixes[i - (width * p)] == undefined && oldpixes[i + (width * p)] != undefined && oldpixes[i + (width * p)].liquid == true && pixPressure[i] > 1) {
+	
+						if (pixes[i - (width * p)] == undefined) {
+							pixes[i - (width * p)] = pixes[i];
+							pixes[i] = undefined;
+							//pixPressure[i] = 0;
+						}
+	
+					}
+	
+				}
+	
+	
+	
+	
+	
+			}
+	
+	
+	
+	
+	
+	
+	
+		}
+	
+		*/
+
+
 
 	if (liquidAnimTimer >= 5) {
 		liquidFrame++;
@@ -863,6 +1288,8 @@ var draw = function () {
 	//pixelcount = 0;
 
 	updatePixels();
+
+
 
 	var snap = 5;
 
@@ -982,6 +1409,61 @@ var draw = function () {
 	//keys
 
 	{
+
+		if (keys[83]) {
+
+			var tempSave = [];
+
+			for (var i = 0; i < pixes.length; i++) {
+
+
+				if (pixes[i] == undefined) {
+
+					tempSave.push(-1)
+
+				}
+
+				else {
+
+					tempSave.push(pixes[i].id);
+
+				}
+
+
+			}
+
+			storeItem("save", tempSave);
+
+			//console.log(tempSave);
+
+			keys[83] = false;
+
+		}
+
+		if (keys[76]) {
+
+			keys[76] = false;
+
+			paused = true;
+
+			//console.log(loadSave)
+
+			loadingSave = true;
+
+			//console.log(tempSave);
+
+			//pixes = tempSave;
+
+
+
+		}
+
+		if (keys[67]) {
+
+			pixes = new Array(pixels.length / 4).fill(undefined);
+			clearStorage();
+
+		}
 		//sand
 		if (keys[49]) {
 
@@ -1072,6 +1554,15 @@ var draw = function () {
 
 		}
 
+		if (keys[84]) {
+			chosen = lava
+			//console.log("Yeet")
+			pcolor.r = 80
+			pcolor.g = 80
+			pcolor.b = 80
+
+		}
+
 
 
 		if (keys[48]) {
@@ -1092,7 +1583,7 @@ var draw = function () {
 	
 		}*/
 
-		if (keys[83]) {
+		/*if (keys[83]) {
 			//console.log("Hello!")
 
 			tempsave = []
@@ -1127,7 +1618,7 @@ var draw = function () {
 
 			}
 
-		}
+		}*/
 	}
 
 	/*if(keys[79]) {
